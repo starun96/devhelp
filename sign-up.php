@@ -38,7 +38,7 @@
             }
           }
           form.submit();
-        }; 
+        };
       };
     </script>
     <!-- Navigation -->
@@ -88,28 +88,108 @@
 
 
     <body>
+      <?php
+        $name = $email = $userpassword = $address = $city = $state = $zip = "";
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $name = $_POST["user_name"];
+        $email = $_POST["user_email"];
+        $userpassword = $_POST["user_password"];
+        $address = $_POST["address"];
+        $city = $_POST["user_city"];
+        $state = $_POST["state"];
+        $zip = $_POST["user_zip"];
+        }
 
-      <form id ="sign-up-form" action="index.php" method="post">
+        $servername = "localhost";
+        $username = "root";
+        $password = "";
+        $dbname = "bowensDB";
+
+
+
+        // Create connection
+        $conn = new mysqli($servername, $username, $password, $dbname);
+
+        // Check connection
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+        echo "Connected successfully";
+
+        // Create database, only need to be done once.
+        // $sql = "CREATE DATABASE bowensDB";
+        // if ($conn->query($sql) === TRUE) {
+        //     echo "Database created successfully";
+        // } else {
+        //     echo "Error creating database: " . $conn->error;
+        // }
+
+        //sql to create table
+        // $sql = "CREATE TABLE DevhelpUsers (
+        // id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+        // username VARCHAR(30) NOT NULL,
+        // email VARCHAR(30) NOT NULL,
+        // password VARCHAR(50) NOT NULL,
+        // address VARCHAR(100) NOT NULL,
+        // city VARCHAR(50) NOT NULL,
+        // state VARCHAR(50) NOT NULL,
+        // zipcode VARCHAR(50) NOT NULL
+        // )";
+        //
+        // if ($conn->query($sql) === TRUE) {
+        //     echo "Table MyGuests created successfully";
+        // } else {
+        //     echo "Error creating table: " . $conn->error;
+        // }
+
+
+
+        //insert into table.
+        if ($name != ""){
+          //First, fetch to see if email already exist in bowensDB.
+          $query = mysqli_query($conn,"SELECT email FROM DevhelpUsers WHERE email = '$email'");
+
+          if (mysqli_num_rows($query) != 0)
+          {
+            echo "User already exist!";
+          }else{
+            $hashed_pw = password_hash($userpassword, PASSWORD_DEFAULT);
+            $sql = "INSERT INTO DevhelpUsers (username, email, password, address, city, state, zipcode)
+            VALUES ('$name', '$email', '$hashed_pw', '$address', '$city', '$state', '$zip')";
+
+            if ($conn->query($sql) === TRUE) {
+                echo "New record created successfully";
+            } else {
+                echo "Error: " . $sql . "<br>" . $conn->error;
+            }
+          }
+        }
+
+
+
+       ?>
+
+      <form id ="sign-up-form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" method = "post">
 
         <h1>Sign Up</h1>
 
         <fieldset>
           <legend><span class="number">1</span>Your basic info</legend>
           <label for="name">Name:</label>
-          <input type="text" id="name" name="user_name" pattern="^[a-zA-Z-][a-zA-Z -]*$"  title="Letters only" required>
-          
+          <input type="text" id="name" name="user_name" pattern="^[a-zA-Z-][a-zA-Z -]*$"  oninvalid="setCustomValidity('Letters only please')" onchange="try{setCustomValidity('')}catch(e){}" required />
+
           <label for="mail">Email:</label>
           <input type="email" id="mail" name="user_email" required>
-          
+
           <label for="password">Password:</label>
           <input type="password" id="password" name="user_password" required>
-          
+
           <label for="address">Address:</label>
           <input type="text" id="address" name="address" pattern="^[a-zA-Z0-9_.-]*$" title="Letters and numbers only" required>
-          
+
           <label for="city">City:</label>
           <input type="text" id="city" name="user_city" pattern="^[a-zA-Z-][a-zA-Z -]*$"  title="Letters only" required>
-          
+
           <select name="state" id="state" required>
             <option value="" selected="selected">State:</option>
             <option value="AL">Alabama</option>
@@ -164,17 +244,17 @@
             <option value="WI">Wisconsin</option>
             <option value="WY">Wyoming</option>
           </select>
-          
+
 
           <label for="zip">Zip Code:</label>
           <input type="text" id="zip" name="user_zip" pattern="^[0-9]{5}$"  title="Five numbers only" required>
 
-          <label>Age:</label>
+          <!-- <label>Age:</label>
           <input type="radio" id="under_13" value="under_13" name="user_age"><label for="under_13" class="light">Under 13</label><br>
-          <input type="radio" id="over_13" value="over_13" name="user_age"><label for="over_13" class="light">13 or older</label>
+          <input type="radio" id="over_13" value="over_13" name="user_age"><label for="over_13" class="light">13 or older</label> -->
         </fieldset>
 
-        <fieldset>
+        <!-- <fieldset>
           <legend><span class="number">2</span>Your profile</legend>
           <label for="bio">Biography:</label>
           <textarea id="bio" name="user_bio"></textarea>
@@ -210,7 +290,7 @@
             <input type="checkbox" id="design" value="interest_design" name="user_interest"><label class="light" for="design">Design</label><br>
           <input type="checkbox" id="business" value="interest_business" name="user_interest"><label class="light" for="business">Business</label>
 
-        </fieldset>
+        </fieldset> -->
         <button type="submit">Sign Up</button>
       </form>
 
