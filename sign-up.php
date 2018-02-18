@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Sign Up</title>
+    <title>DevHelp: Sign Up</title>
 
     <!-- Bootstrap core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -26,7 +26,21 @@
   </head>
 
   <body>
-
+    <!-- Some JavaScript Form Handling -->
+    <script type="text/javascript">
+      window.onload = function () {
+        var form = document.getElementById('sign_up_form');
+        form.button.onclick = function (){
+          for(var i=0; i < form.elements.length; i++){
+            if(form.elements[i].value === '' && form.elements[i].hasAttribute('required')){
+              alert('There are some required fields!');
+              return false;
+            }
+          }
+          form.submit();
+        }; 
+      };
+    </script>
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
       <div class="container">
@@ -38,19 +52,19 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-              <a class="nav-link" href="index.html">Home</a>
+              <a class="nav-link" href="index.php">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="about.html">About</a>
+              <a class="nav-link" href="about.php">About</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="sign-up.html">Sign Up</a>
+              <a class="nav-link" href="sign-up.php">Sign Up</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="log-in.html">Log In</a>
+              <a class="nav-link" href="log-in.php">Log In</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="contact.html">Contact</a>
+              <a class="nav-link" href="contact.php">Contact</a>
             </li>
           </ul>
         </div>
@@ -75,20 +89,85 @@
 
     <body>
 
-      <form action="index.html" method="post">
+      <form id ="sign-up-form" action="index.php" method="post">
 
         <h1>Sign Up</h1>
 
         <fieldset>
           <legend><span class="number">1</span>Your basic info</legend>
           <label for="name">Name:</label>
-          <input type="text" id="name" name="user_name">
-
+          <input type="text" id="name" name="user_name" pattern="^[a-zA-Z-][a-zA-Z -]*$"  title="Letters only" required>
+          
           <label for="mail">Email:</label>
-          <input type="email" id="mail" name="user_email">
-
+          <input type="email" id="mail" name="user_email" required>
+          
           <label for="password">Password:</label>
-          <input type="password" id="password" name="user_password">
+          <input type="password" id="password" name="user_password" required>
+          
+          <label for="address">Address:</label>
+          <input type="text" id="address" name="address" pattern="^[a-zA-Z0-9_.-]*$" title="Letters and numbers only" required>
+          
+          <label for="city">City:</label>
+          <input type="text" id="city" name="user_city" pattern="^[a-zA-Z-][a-zA-Z -]*$"  title="Letters only" required>
+          
+          <select name="state" id="state" required>
+            <option value="" selected="selected">State:</option>
+            <option value="AL">Alabama</option>
+            <option value="AK">Alaska</option>
+            <option value="AZ">Arizona</option>
+            <option value="AR">Arkansas</option>
+            <option value="CA">California</option>
+            <option value="CO">Colorado</option>
+            <option value="CT">Connecticut</option>
+            <option value="DE">Delaware</option>
+            <option value="DC">District Of Columbia</option>
+            <option value="FL">Florida</option>
+            <option value="GA">Georgia</option>
+            <option value="HI">Hawaii</option>
+            <option value="ID">Idaho</option>
+            <option value="IL">Illinois</option>
+            <option value="IN">Indiana</option>
+            <option value="IA">Iowa</option>
+            <option value="KS">Kansas</option>
+            <option value="KY">Kentucky</option>
+            <option value="LA">Louisiana</option>
+            <option value="ME">Maine</option>
+            <option value="MD">Maryland</option>
+            <option value="MA">Massachusetts</option>
+            <option value="MI">Michigan</option>
+            <option value="MN">Minnesota</option>
+            <option value="MS">Mississippi</option>
+            <option value="MO">Missouri</option>
+            <option value="MT">Montana</option>
+            <option value="NE">Nebraska</option>
+            <option value="NV">Nevada</option>
+            <option value="NH">New Hampshire</option>
+            <option value="NJ">New Jersey</option>
+            <option value="NM">New Mexico</option>
+            <option value="NY">New York</option>
+            <option value="NC">North Carolina</option>
+            <option value="ND">North Dakota</option>
+            <option value="OH">Ohio</option>
+            <option value="OK">Oklahoma</option>
+            <option value="OR">Oregon</option>
+            <option value="PA">Pennsylvania</option>
+            <option value="RI">Rhode Island</option>
+            <option value="SC">South Carolina</option>
+            <option value="SD">South Dakota</option>
+            <option value="TN">Tennessee</option>
+            <option value="TX">Texas</option>
+            <option value="UT">Utah</option>
+            <option value="VT">Vermont</option>
+            <option value="VA">Virginia</option>
+            <option value="WA">Washington</option>
+            <option value="WV">West Virginia</option>
+            <option value="WI">Wisconsin</option>
+            <option value="WY">Wyoming</option>
+          </select>
+          
+
+          <label for="zip">Zip Code:</label>
+          <input type="text" id="zip" name="user_zip" pattern="^[0-9]{5}$"  title="Five numbers only" required>
 
           <label>Age:</label>
           <input type="radio" id="under_13" value="under_13" name="user_age"><label for="under_13" class="light">Under 13</label><br>
