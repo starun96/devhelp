@@ -91,24 +91,24 @@
       <?php
         $name = $email = $userpassword = $address = $city = $state = $zip = "";
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $name = $_POST["user_name"];
-        $email = $_POST["user_email"];
-        $userpassword = $_POST["user_password"];
-        $address = $_POST["address"];
-        $city = $_POST["user_city"];
-        $state = $_POST["state"];
-        $zip = $_POST["user_zip"];
+        $name=$_POST["user_name"];
+        $email=$_POST["user_email"];
+        $userpassword=$_POST["user_password"];
+        $address=$_POST["address"];
+        $city=$_POST["user_city"];
+        $state=$_POST["state"];
+        $zip=$_POST["user_zip"];
         }
 
-        $servername = "localhost";
-        $username = "root";
-        $password = "";
-        $dbname = "bowensDB";
+        $servername="localhost";
+        $username="root";
+        $password="";
+        $dbname="bowensDB";
 
 
 
         // Create connection
-        $conn = new mysqli($servername, $username, $password, $dbname);
+        $conn=new mysqli($servername, $username, $password, $dbname);
 
         // Check connection
         if ($conn->connect_error) {
@@ -147,11 +147,11 @@
         //insert into table.
         if ($name != ""){
           //First, fetch to see if email already exist in bowensDB.
-          $query = mysqli_query($conn,"SELECT email FROM DevhelpUsers WHERE email = '$email'");
+          $query = mysqli_query($conn,"SELECT email FROM DevhelpUsers WHERE email='$email'");
 
           if (mysqli_num_rows($query) != 0)
           {
-            echo "User already exist!";
+            echo '<div style="text-align:center;">Email already exists!<div>';
           }else{
             $hashed_pw = password_hash($userpassword, PASSWORD_DEFAULT);
             $sql = "INSERT INTO DevhelpUsers (username, email, password, address, city, state, zipcode)
@@ -169,7 +169,7 @@
 
        ?>
 
-      <form id ="sign-up-form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" method = "post">
+      <form id ="sign-up-form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method = "post">
 
         <h1>Sign Up</h1>
 
@@ -179,16 +179,16 @@
           <input type="text" id="name" name="user_name" pattern="^[a-zA-Z-][a-zA-Z -]*$"  oninvalid="setCustomValidity('Letters only please')" onchange="try{setCustomValidity('')}catch(e){}" required />
 
           <label for="mail">Email:</label>
-          <input type="email" id="mail" name="user_email" required>
+          <input type="text" id="mail" name="user_email" pattern="^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$" oninvalid="setCustomValidity('Enter a Valid Email')" onchange="try{setCustomValidity('')}catch(e){}" required>
 
           <label for="password">Password:</label>
           <input type="password" id="password" name="user_password" required>
 
           <label for="address">Address:</label>
-          <input type="text" id="address" name="address" pattern="^[a-zA-Z0-9_.-]*$" title="Letters and numbers only" required>
+          <input type="text" id="address" name="address" pattern="^[#.0-9a-zA-Z\s,-]+$" oninvalid="setCustomValidity('Letters and numbers only please')" onchange="try{setCustomValidity('')}catch(e){}" required>
 
           <label for="city">City:</label>
-          <input type="text" id="city" name="user_city" pattern="^[a-zA-Z-][a-zA-Z -]*$"  title="Letters only" required>
+          <input type="text" id="city" name="user_city" pattern="^[a-zA-Z-][a-zA-Z -]*$" oninvalid="setCustomValidity('Letters only please')" onchange="try{setCustomValidity('')}catch(e){}" required>
 
           <select name="state" id="state" required>
             <option value="" selected="selected">State:</option>
