@@ -85,7 +85,9 @@
       </div>
     </div>
     <div style="text-align: center;">
-      <button type="submit" class="btn btn-primary" id="sendMessageButton">Sign Up Now!</button>
+    <form action="sign-up.php">
+      <button type="submit" class="btn btn-primary" id="sendMessageButton" >Sign Up Now!</button>
+      </form>
     </div>
     <hr>
 
