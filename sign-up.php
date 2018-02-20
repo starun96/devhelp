@@ -23,7 +23,7 @@
     <!-- Custom styles for this template -->
     <link href="css/clean-blog.min.css" rel="stylesheet">
 
-  </head>
+  </head> sql to create table
 
   <body>
     <!-- Some JavaScript Form Handling -->
@@ -105,42 +105,42 @@
         $password="";
         $dbname="bowensDB";
 
-
-
         // Create connection
-        $conn=new mysqli($servername, $username, $password, $dbname);
+        $conn=new mysqli($servername, $username, $password);
 
         // Check connection
         if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);
         }
-        echo "Connected successfully";
+       // echo "Connected successfully";
 
-        // Create database, only need to be done once.
-        // $sql = "CREATE DATABASE bowensDB";
-        // if ($conn->query($sql) === TRUE) {
-        //     echo "Database created successfully";
-        // } else {
-        //     echo "Error creating database: " . $conn->error;
-        // }
+        //Create database, only need to be done once.
+        $sql = "CREATE DATABASE bowensDB";
+        if ($conn->query($sql) === TRUE) {
+            echo "Database created successfully";
+        } else {
+           // echo "Error creating database: " . $conn->error;
+        }
 
-        //sql to create table
-        // $sql = "CREATE TABLE DevhelpUsers (
-        // id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-        // username VARCHAR(30) NOT NULL,
-        // email VARCHAR(30) NOT NULL,
-        // password VARCHAR(50) NOT NULL,
-        // address VARCHAR(100) NOT NULL,
-        // city VARCHAR(50) NOT NULL,
-        // state VARCHAR(50) NOT NULL,
-        // zipcode VARCHAR(50) NOT NULL
-        // )";
-        //
-        // if ($conn->query($sql) === TRUE) {
-        //     echo "Table MyGuests created successfully";
-        // } else {
-        //     echo "Error creating table: " . $conn->error;
-        // }
+        $conn=new mysqli($servername, $username, $password, $dbname);
+
+       // sql to create table
+        $sql = "CREATE TABLE DevhelpUsers (
+        id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+        username VARCHAR(30) NOT NULL,
+        email VARCHAR(30) NOT NULL,
+        password VARCHAR(50) NOT NULL,
+        address VARCHAR(100) NOT NULL,
+        city VARCHAR(50) NOT NULL,
+        state VARCHAR(50) NOT NULL,
+        zipcode VARCHAR(50) NOT NULL
+        )";
+        
+        if ($conn->query($sql) === TRUE) {
+            echo "Table MyGuests created successfully";
+        } else {
+           // echo "Error creating table: " . $conn->error;
+        }
 
 
 
