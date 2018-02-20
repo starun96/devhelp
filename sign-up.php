@@ -23,7 +23,7 @@
     <!-- Custom styles for this template -->
     <link href="css/clean-blog.min.css" rel="stylesheet">
 
-  </head> sql to create table
+  </head> 
 
   <body>
     <!-- Some JavaScript Form Handling -->
@@ -112,12 +112,12 @@
         if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);
         }
-       // echo "Connected successfully";
+       // "Connected successfully";
 
         //Create database, only need to be done once.
         $sql = "CREATE DATABASE bowensDB";
         if ($conn->query($sql) === TRUE) {
-            echo "Database created successfully";
+            //echo "Database created successfully";
         } else {
            // echo "Error creating database: " . $conn->error;
         }
@@ -137,7 +137,7 @@
         )";
         
         if ($conn->query($sql) === TRUE) {
-            echo "Table MyGuests created successfully";
+           // echo "Table MyGuests created successfully";
         } else {
            // echo "Error creating table: " . $conn->error;
         }
@@ -158,9 +158,9 @@
             VALUES ('$name', '$email', '$hashed_pw', '$address', '$city', '$state', '$zip')";
 
             if ($conn->query($sql) === TRUE) {
-                echo "New record created successfully";
+                //echo "New record created successfully";
             } else {
-                echo "Error: " . $sql . "<br>" . $conn->error;
+               // echo "Error: " . $sql . "<br>" . $conn->error;
             }
           }
         }
