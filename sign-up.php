@@ -1,7 +1,7 @@
 <?php
 //Import PHPMailer classes into the global namespace
-use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\PHPMailer;
 
 require 'vendor/autoload.php';
 
@@ -21,6 +21,8 @@ require 'vendor/autoload.php';
 
     <!-- Bootstrap core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!--page specific -->
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
     <link rel="stylesheet" href="css/sign-up-style.css">
@@ -65,8 +67,6 @@ require 'vendor/autoload.php';
             <i class="fa fa-bars"></i>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
-
-
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
                     <a class="nav-link" href="index.php">Home</a>
@@ -87,10 +87,10 @@ require 'vendor/autoload.php';
                     <a class="nav-link" href="contact.php">Contact</a>
                 </li>
             </ul>
-
         </div>
     </div>
 </nav>
+
 
 <!-- Page Header -->
 <header class="masthead" style="background-image: url('img/about-bg.jpg')">
@@ -109,7 +109,10 @@ require 'vendor/autoload.php';
 
 
 <?php
-$name = $email = $userpassword = $address = $city = $state = $zip = $success_message = "";
+$name = $email = $userpassword = $address = $city = $state = $zip = "";
+$success = false;
+$validation_message_field = "";
+$validation_message = "";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = $_POST["user_name"];
     $email = $_POST["user_email"];
@@ -167,8 +170,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $emails_result = $conn->query("SELECT email FROM DevhelpUsers WHERE email='$email'");
         if ($emails_result->num_rows != 0) {
-            echo '<div style="text-align:center;">Email already exists!<div>';
+            /*echo '<div style="text-align:center;">Email already exists!<div>';*/
+            $success = false;
+            $validation_message = "Email already exists!";
         } else {
+            $success = true;
+            $validation_message = "Successfully signed up!";
             $hashed_pw = password_hash($userpassword, PASSWORD_DEFAULT);
             $sql = "INSERT INTO DevhelpUsers (username, email, password, address, city, state, zipcode)
             VALUES ('$name', '$email', '$hashed_pw', '$address', '$city', '$state', '$zip')";
@@ -219,10 +226,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             try {
                 $mail->send();
             } catch (Exception $e) {
-                echo "Message not sent. " . $mail->ErrorInfo;
+                $success = false;
+                $validation_message = $validation_message . " However, the confirmation email could not be sent.";
             }
 
         }
+        $field_color = $success ? "green" : "red";
+        $validation_message_field = "<h4 style=\"color: $field_color; text-align:center;\">$validation_message</h4>";
     }
 
 }
@@ -236,7 +246,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <h1>Sign Up</h1>
 
     <fieldset>
-        <legend><span class="number">1</span>Your basic info</legend>
+        <!--<legend><span class="number">1</span> Enter the following information</legend>-->
         <label for="name">Name:</label>
         <input type="text" id="name" name="user_name" pattern="^[a-zA-Z-][a-zA-Z -]*$"
                oninvalid="setCustomValidity('Letters only please')"
@@ -249,7 +259,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                onchange="try{setCustomValidity('')}catch(e){}" required>
 
         <label for="password">Password:</label>
-        <input type="password" id="password" name="user_password" required>
+        <input type="password" pattern="^.{8,}$" id="password"
+               oninvalid="setCustomValidity('The password must be at least 8 characters long.')"
+               onchange="try{setCustomValidity('')}catch(e){}" name="user_password" required>
 
         <label for="address">Address:</label>
         <input type="text" id="address" name="address" pattern="^[#.0-9a-zA-Z\s,-]+$"
@@ -321,7 +333,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <label for="zip">Zip Code:</label>
         <input type="text" id="zip" name="user_zip" pattern="^[0-9]{5}$" title="Five numbers only"
                required>
-
+        <button type="submit">Sign Up</button>
         <!-- <label>Age:</label>
         <input type="radio" id="under_13" value="under_13" name="user_age"><label for="under_13" class="light">Under 13</label><br>
         <input type="radio" id="over_13" value="over_13" name="user_age"><label for="over_13" class="light">13 or older</label> -->
@@ -364,7 +376,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <input type="checkbox" id="business" value="interest_business" name="user_interest"><label class="light" for="business">Business</label>
 
     </fieldset> -->
-    <button type="submit">Sign Up</button>
+    <?php echo $validation_message_field; ?>
 </form>
 
 

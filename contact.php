@@ -1,7 +1,7 @@
 <?php
 //Import PHPMailer classes into the global namespace
-use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\PHPMailer;
 
 require 'vendor/autoload.php';
 
@@ -42,7 +42,9 @@ require 'vendor/autoload.php';
 
 <body>
 <?php
-$success_message = "";
+$success = false;
+$validation_message_field = "";
+$validation_message = "";
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $name = $_POST['name'];
     $email = $_POST['email'];
@@ -76,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 //Set who the message is to be sent to
     $mail->addAddress('devhelptest@gmail.com');
 //Set the subject line
-    $mail->Subject = 'PHPMailer GMail SMTP test';
+    $mail->Subject = 'Contact Message';
 
     $mail->Body = "$message <br /> <br /> Phone Number: $phone_number <br />Email: $email";
 //Replace the plain text body with one created manually
@@ -85,10 +87,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     try {
         $mail->send();
-        $success_message =  "Message sent!";
+        $success = true;
+        $validation_message = "Message successfully sent!";
     } catch (Exception $e) {
-        $success_message = "Message not sent. " . $mail->ErrorInfo;
+        $success = false;
+        $validation_message = "Message not sent. " . $mail->ErrorInfo;
     }
+    $field_color = $success ? "green" : "red";
+    $validation_message_field = "<h4 style=\"color: $field_color; text-align:center;\">$validation_message</h4>";
 } ?>
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
@@ -102,29 +108,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
 
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="index.php">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="work.php">Work</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="about.php">About</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="sign-up.php">Sign Up</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="log-in.php">Log In</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="contact.php">Contact</a>
-            </li>
-          </ul>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.php">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="work.php">Work</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="about.php">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="sign-up.php">Sign Up</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="log-in.php">Log In</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="contact.php">Contact</a>
+                </li>
+            </ul>
         </div>
-      </div>
-    </nav>
+    </div>
+</nav>
 
 <!-- Page Header -->
 <header class="masthead" style="background-image: url('img/contact-bg.jpg')">
@@ -148,27 +154,34 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       method="post">
     <h1>Contact Us</h1>
     <fieldset>
-        <legend><span class="number">1</span>Please enter the following information.</legend>
+        <!--        <legend><span class="number">1</span>Please enter the following information.</legend>-->
         <label for="name">Name</label>
         <input id="name" type="text"
-               name="name"
+               name="name" pattern="^[a-zA-Z-][a-zA-Z -]*$"
+               oninvalid="setCustomValidity('Please enter only letters')"
+               onchange="try{setCustomValidity('')}catch(e){}"
                required>
 
 
         <label for="email">Email Address</label>
         <input type="email" class="form-control"
-               name="email"
+               name="email" pattern="^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$"
+               oninvalid="setCustomValidity('Please enter a valid email address.')"
+               onchange="try{setCustomValidity('')}catch(e){}"
                id="email" required>
 
 
         <label for="phone_number">Phone Number</label>
-        <input type="tel"  id="phone_number"
+        <input type="tel" id="phone_number"
+               pattern="^\(?([0-9]{3})\)?[-.●]?([0-9]{3})[-.●]?([0-9]{4})$"
+               oninvalid="setCustomValidity('Please enter a valid phone number.')"
+               onchange="try{setCustomValidity('')}catch(e){}"
                name="phone_number"
                required
         >
 
         <label for="message">Message</label>
-        <textarea rows="5" class="form-control" id="message"
+        <textarea rows="5" id="message"
                   name="message"
                   required></textarea>
 
@@ -176,7 +189,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <button type="submit">Send</button>
 
     </fieldset>
-    <h4 style="color:green; text-align:center;"><?php echo $success_message ?></h4>
+    <?php echo $validation_message_field; ?>
 </form>
 
 
