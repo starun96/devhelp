@@ -208,7 +208,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 //Set who the message is to be sent to
             $mail->addAddress($email);
 //Set the subject line
-            $mail->Subject = 'PHPMailer GMail SMTP test';
+            $mail->Subject = 'DevHelp Account Successfully Created!';
 //Read an HTML message body from an external file, convert referenced images to embedded,
 //convert HTML into a basic plain-text alternative body
             $mail->Body = "Welcome to DevHelp!";
