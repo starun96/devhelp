@@ -147,6 +147,9 @@
 
           if ($conn->query($sql) === TRUE) {
               //echo "New Post created successfully";
+              //redirect to work.php.
+              echo'<meta http-equiv="refresh"
+             content="0; url=work.php">';
           } else {
               //echo "Error: " . $sql . "<br>" . $conn->error;
           }

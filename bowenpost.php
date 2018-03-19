@@ -9,7 +9,6 @@
     <meta name="author" content="">
 
     <title>DevHelp: Post</title>
-
     <!-- Bootstrap core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
