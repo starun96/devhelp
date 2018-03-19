@@ -23,7 +23,7 @@
     <!-- Custom styles for this template -->
     <link href="css/clean-blog.min.css" rel="stylesheet">
 
-  </head> 
+  </head>
 
   <body>
     <!-- Some JavaScript Form Handling -->
@@ -53,6 +53,9 @@
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
               <a class="nav-link" href="index.php">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="work.php">Work</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="about.php">About</a>
@@ -135,7 +138,7 @@
         state VARCHAR(50) NOT NULL,
         zipcode VARCHAR(50) NOT NULL
         )";
-        
+
         if ($conn->query($sql) === TRUE) {
            // echo "Table MyGuests created successfully";
         } else {

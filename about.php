@@ -39,6 +39,9 @@
               <a class="nav-link" href="index.php">Home</a>
             </li>
             <li class="nav-item">
+              <a class="nav-link" href="work.php">Work</a>
+            </li>
+            <li class="nav-item">
               <a class="nav-link" href="about.php">About</a>
             </li>
             <li class="nav-item">
@@ -75,7 +78,7 @@
       <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
           <h4>We are the ultimate coding matchmaker for college students.</h4>
-            
+
           <p>Are you a college entrepreneur looking for a fresh start to your business career? Well, you can post a development job and turn your app idea into a reality. Or maybe you're a novice coder who wants help in fixing a bug. Either way, we've got you covered. Our service allows student developers to bid on your software task and provides productive and efficient 2-way comunication every step of the way.</p>
           <h4>A service by college students for college students! </h4>
           <p>Whereas other freelance websites are quite saturated with competition from all sorts of developers, we specialize in a creating a platform for just college students to provide software assistance to other ambitious college students. Thus, college developers can practice hands-on, real-world coding while still earning money for their tasks. Not only that, it is the quickest and most rewarding way to kickstart your career and impress your employers!</p>
