@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
-  <head>
+<head>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -12,44 +12,52 @@
 
     <!-- Bootstrap core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
     <link rel="stylesheet" href="css/sign-up-style.css">
 
     <!-- Custom fonts for this template -->
     <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic'
+          rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800'
+          rel='stylesheet' type='text/css'>
 
     <!-- Custom styles for this template -->
     <link href="css/clean-blog.min.css" rel="stylesheet">
 
-  </head>
+</head>
 
-  <body>
-    <!-- Some JavaScript Form Handling -->
-    <script type="text/javascript">
-      window.onload = function () {
+<body>
+
+<!-- Some JavaScript Form Handling -->
+<script type="text/javascript">
+    window.onload = function () {
         var form = document.getElementById('sign_up_form');
-        form.button.onclick = function (){
-          for(var i=0; i < form.elements.length; i++){
-            if(form.elements[i].value === '' && form.elements[i].hasAttribute('required')){
-              alert('There are some required fields!');
-              return false;
+        form.button.onclick = function () {
+            for (var i = 0; i < form.elements.length; i++) {
+                if (form.elements[i].value === '' && form.elements[i].hasAttribute('required')) {
+                    alert('There are some required fields!');
+                    return false;
+                }
             }
-          }
-          form.submit();
+            form.submit();
         };
-      };
-    </script>
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
-      <div class="container">
+    };
+</script>
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+    <div class="container">
         <img class="mb-4" src="DevHelplogo.png" alt="" width="200" height="35">
-        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-          Menu
-          <i class="fa fa-bars"></i>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+                data-target="#navbarResponsive" aria-controls="navbarResponsive"
+                aria-expanded="false" aria-label="Toggle navigation">
+            Menu
+            <i class="fa fa-bars"></i>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
+
+
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
               <a class="nav-link" href="index.php">Home</a>
@@ -70,21 +78,23 @@
               <a class="nav-link" href="contact.php">Contact</a>
             </li>
           </ul>
-        </div>
-      </div>
-    </nav>
 
-    <!-- Page Header -->
-    <header class="masthead" style="background-image: url('img/about-bg.jpg')">
-      <div class="overlay"></div>
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-8 col-md-10 mx-auto">
-            <div class="page-heading">
-              <h1>Join DevHelp</h1>
-            </div>
-          </div>
         </div>
+    </div>
+</nav>
+
+<!-- Page Header -->
+<header class="masthead" style="background-image: url('img/about-bg.jpg')">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <div class="page-heading">
+                    <h1>Join DevHelp</h1>
+                </div>
+            </div>
+        </div>
+
       </div>
     </header>
 
@@ -166,34 +176,46 @@
                // echo "Error: " . $sql . "<br>" . $conn->error;
             }
           }
+
         }
+    }
+}
 
 
+*/?>
 
-       ?>
+<form id="sign-up-form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>"
+      method="post">
 
-      <form id ="sign-up-form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method = "post">
+    <h1>Sign Up</h1>
 
-        <h1>Sign Up</h1>
+    <fieldset>
+        <legend><span class="number">1</span>Your basic info</legend>
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="user_name" pattern="^[a-zA-Z-][a-zA-Z -]*$"
+               oninvalid="setCustomValidity('Letters only please')"
+               onchange="try{setCustomValidity('')}catch(e){}" required/>
 
-        <fieldset>
-          <legend><span class="number">1</span>Your basic info</legend>
-          <label for="name">Name:</label>
-          <input type="text" id="name" name="user_name" pattern="^[a-zA-Z-][a-zA-Z -]*$"  oninvalid="setCustomValidity('Letters only please')" onchange="try{setCustomValidity('')}catch(e){}" required />
+        <label for="mail">Email:</label>
+        <input type="text" id="mail" name="user_email"
+               pattern="^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$"
+               oninvalid="setCustomValidity('Enter a Valid Email')"
+               onchange="try{setCustomValidity('')}catch(e){}" required>
 
-          <label for="mail">Email:</label>
-          <input type="text" id="mail" name="user_email" pattern="^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$" oninvalid="setCustomValidity('Enter a Valid Email')" onchange="try{setCustomValidity('')}catch(e){}" required>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="user_password" required>
 
-          <label for="password">Password:</label>
-          <input type="password" id="password" name="user_password" required>
+        <label for="address">Address:</label>
+        <input type="text" id="address" name="address" pattern="^[#.0-9a-zA-Z\s,-]+$"
+               oninvalid="setCustomValidity('Letters and numbers only please')"
+               onchange="try{setCustomValidity('')}catch(e){}" required>
 
-          <label for="address">Address:</label>
-          <input type="text" id="address" name="address" pattern="^[#.0-9a-zA-Z\s,-]+$" oninvalid="setCustomValidity('Letters and numbers only please')" onchange="try{setCustomValidity('')}catch(e){}" required>
+        <label for="city">City:</label>
+        <input type="text" id="city" name="user_city" pattern="^[a-zA-Z-][a-zA-Z -]*$"
+               oninvalid="setCustomValidity('Letters only please')"
+               onchange="try{setCustomValidity('')}catch(e){}" required>
 
-          <label for="city">City:</label>
-          <input type="text" id="city" name="user_city" pattern="^[a-zA-Z-][a-zA-Z -]*$" oninvalid="setCustomValidity('Letters only please')" onchange="try{setCustomValidity('')}catch(e){}" required>
-
-          <select name="state" id="state" required>
+        <select name="state" id="state" required>
             <option value="" selected="selected">State:</option>
             <option value="AL">Alabama</option>
             <option value="AK">Alaska</option>
@@ -246,97 +268,96 @@
             <option value="WV">West Virginia</option>
             <option value="WI">Wisconsin</option>
             <option value="WY">Wyoming</option>
-          </select>
-
-
-          <label for="zip">Zip Code:</label>
-          <input type="text" id="zip" name="user_zip" pattern="^[0-9]{5}$"  title="Five numbers only" required>
-
-          <!-- <label>Age:</label>
-          <input type="radio" id="under_13" value="under_13" name="user_age"><label for="under_13" class="light">Under 13</label><br>
-          <input type="radio" id="over_13" value="over_13" name="user_age"><label for="over_13" class="light">13 or older</label> -->
-        </fieldset>
-
-        <!-- <fieldset>
-          <legend><span class="number">2</span>Your profile</legend>
-          <label for="bio">Biography:</label>
-          <textarea id="bio" name="user_bio"></textarea>
-        </fieldset>
-        <fieldset>
-        <label for="job">Job Role:</label>
-        <select id="job" name="user_job">
-          <optgroup label="Web">
-            <option value="frontend_developer">Front-End Developer</option>
-            <option value="php_developor">PHP Developer</option>
-            <option value="python_developer">Python Developer</option>
-            <option value="rails_developer"> Rails Developer</option>
-            <option value="web_designer">Web Designer</option>
-            <option value="WordPress_developer">WordPress Developer</option>
-          </optgroup>
-          <optgroup label="Mobile">
-            <option value="Android_developer">Androild Developer</option>
-            <option value="iOS_developer">iOS Developer</option>
-            <option value="mobile_designer">Mobile Designer</option>
-          </optgroup>
-          <optgroup label="Business">
-            <option value="business_owner">Business Owner</option>
-            <option value="freelancer">Freelancer</option>
-          </optgroup>
-          <optgroup label="Other">
-            <option value="secretary">Secretary</option>
-            <option value="maintenance">Maintenance</option>
-          </optgroup>
         </select>
 
-          <label>Interests:</label>
-          <input type="checkbox" id="development" value="interest_development" name="user_interest"><label class="light" for="development">Development</label><br>
-            <input type="checkbox" id="design" value="interest_design" name="user_interest"><label class="light" for="design">Design</label><br>
-          <input type="checkbox" id="business" value="interest_business" name="user_interest"><label class="light" for="business">Business</label>
 
-        </fieldset> -->
-        <button type="submit">Sign Up</button>
-      </form>
+        <label for="zip">Zip Code:</label>
+        <input type="text" id="zip" name="user_zip" pattern="^[0-9]{5}$" title="Five numbers only"
+               required>
 
-    </body>
-</html>
+        <!-- <label>Age:</label>
+        <input type="radio" id="under_13" value="under_13" name="user_age"><label for="under_13" class="light">Under 13</label><br>
+        <input type="radio" id="over_13" value="over_13" name="user_age"><label for="over_13" class="light">13 or older</label> -->
+    </fieldset>
 
-  <hr>
-  <!-- Footer -->
-  <footer>
+    <!-- <fieldset>
+      <legend><span class="number">2</span>Your profile</legend>
+      <label for="bio">Biography:</label>
+      <textarea id="bio" name="user_bio"></textarea>
+    </fieldset>
+    <fieldset>
+    <label for="job">Job Role:</label>
+    <select id="job" name="user_job">
+      <optgroup label="Web">
+        <option value="frontend_developer">Front-End Developer</option>
+        <option value="php_developor">PHP Developer</option>
+        <option value="python_developer">Python Developer</option>
+        <option value="rails_developer"> Rails Developer</option>
+        <option value="web_designer">Web Designer</option>
+        <option value="WordPress_developer">WordPress Developer</option>
+      </optgroup>
+      <optgroup label="Mobile">
+        <option value="Android_developer">Androild Developer</option>
+        <option value="iOS_developer">iOS Developer</option>
+        <option value="mobile_designer">Mobile Designer</option>
+      </optgroup>
+      <optgroup label="Business">
+        <option value="business_owner">Business Owner</option>
+        <option value="freelancer">Freelancer</option>
+      </optgroup>
+      <optgroup label="Other">
+        <option value="secretary">Secretary</option>
+        <option value="maintenance">Maintenance</option>
+      </optgroup>
+    </select>
+
+      <label>Interests:</label>
+      <input type="checkbox" id="development" value="interest_development" name="user_interest"><label class="light" for="development">Development</label><br>
+        <input type="checkbox" id="design" value="interest_design" name="user_interest"><label class="light" for="design">Design</label><br>
+      <input type="checkbox" id="business" value="interest_business" name="user_interest"><label class="light" for="business">Business</label>
+
+    </fieldset> -->
+    <button type="submit">Sign Up</button>
+</form>
+
+
+<hr>
+<!-- Footer -->
+<footer>
     <div class="container">
-      <div class="row">
-        <div class="col-lg-8 col-md-10 mx-auto">
-          <ul class="list-inline text-center">
-            <li class="list-inline-item">
-              <a href="#">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <ul class="list-inline text-center">
+                    <li class="list-inline-item">
+                        <a href="#">
                 <span class="fa-stack fa-lg">
                   <i class="fa fa-circle fa-stack-2x"></i>
                   <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
                 </span>
-              </a>
-            </li>
-            <li class="list-inline-item">
-              <a href="#">
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="#">
                 <span class="fa-stack fa-lg">
                   <i class="fa fa-circle fa-stack-2x"></i>
                   <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
                 </span>
-              </a>
-            </li>
-            <li class="list-inline-item">
-              <a href="#">
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="#">
                 <span class="fa-stack fa-lg">
                   <i class="fa fa-circle fa-stack-2x"></i>
                   <i class="fa fa-github fa-stack-1x fa-inverse"></i>
                 </span>
-              </a>
-            </li>
-          </ul>
-          <p class="copyright text-muted">Copyright &copy; DevHelp 2018</p>
+                        </a>
+                    </li>
+                </ul>
+                <p class="copyright text-muted">Copyright &copy; DevHelp 2018</p>
+            </div>
         </div>
-      </div>
     </div>
-  </footer>
+</footer>
 
 </body>
 

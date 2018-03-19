@@ -4,6 +4,14 @@
 
 namespace Composer\Autoload;
 
+
+class ComposerStaticInitdac0ac97fb9937317ce8f40c4774fb2c
+{
+    public static $prefixLengthsPsr4 = array (
+        'P' => 
+        array (
+            'PHPMailer\\PHPMailer\\' => 20,
+
 class ComposerStaticInit2cd94397191248bf5edf47457d9fd4af
 {
     public static $prefixLengthsPsr4 = array (
@@ -16,10 +24,24 @@ class ComposerStaticInit2cd94397191248bf5edf47457d9fd4af
         'P' => 
         array (
             'Psr\\Container\\' => 14,
+
         ),
     );
 
     public static $prefixDirsPsr4 = array (
+
+        'PHPMailer\\PHPMailer\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
+        ),
+    );
+
+    public static function getInitializer(ClassLoader $loader)
+    {
+        return \Closure::bind(function () use ($loader) {
+            $loader->prefixLengthsPsr4 = ComposerStaticInitdac0ac97fb9937317ce8f40c4774fb2c::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitdac0ac97fb9937317ce8f40c4774fb2c::$prefixDirsPsr4;
+
         'Symfony\\Component\\Filesystem\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/filesystem',
@@ -48,6 +70,7 @@ class ComposerStaticInit2cd94397191248bf5edf47457d9fd4af
             $loader->prefixLengthsPsr4 = ComposerStaticInit2cd94397191248bf5edf47457d9fd4af::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit2cd94397191248bf5edf47457d9fd4af::$prefixDirsPsr4;
             $loader->fallbackDirsPsr4 = ComposerStaticInit2cd94397191248bf5edf47457d9fd4af::$fallbackDirsPsr4;
+
 
         }, null, ClassLoader::class);
     }
