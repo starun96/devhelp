@@ -42,6 +42,7 @@ require 'vendor/autoload.php';
 
 <body>
 <?php
+$success_message = "";
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $name = $_POST['name'];
     $email = $_POST['email'];
@@ -76,17 +77,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $mail->addAddress('devhelptest@gmail.com');
 //Set the subject line
     $mail->Subject = 'PHPMailer GMail SMTP test';
-//Read an HTML message body from an external file, convert referenced images to embedded,
-//convert HTML into a basic plain-text alternative body
-    $mail->Body = "$message <br /> <br /> Phone Number: $phone_number";
+
+    $mail->Body = "$message <br /> <br /> Phone Number: $phone_number <br />Email: $email";
 //Replace the plain text body with one created manually
     $mail->AltBody = 'This is a plain-text message body';
 //Attach an image file
 
     try {
         $mail->send();
+        $success_message =  "Message sent!";
     } catch (Exception $e) {
-        echo "Message not sent. " . $mail->ErrorInfo;
+        $success_message = "Message not sent. " . $mail->ErrorInfo;
     }
 } ?>
 <!-- Navigation -->
@@ -125,22 +126,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       </div>
     </nav>
 
-    <!-- Page Header -->
-    <header class="masthead" style="background-image: url('img/contact-bg.jpg')">
-      <div class="overlay"></div>
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-8 col-md-10 mx-auto">
-            <div class="page-heading">
-              <h1>Contact Us</h1>
-              <span class="subheading">Have questions? We have answers.</span>
-            </div>
-          </div>
-
-        </div>
-    </div>
-</nav>
-
 <!-- Page Header -->
 <header class="masthead" style="background-image: url('img/contact-bg.jpg')">
     <div class="overlay"></div>
@@ -163,7 +148,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       method="post">
     <h1>Contact Us</h1>
     <fieldset>
-        <legend>Please enter the following information.</legend>
+        <legend><span class="number">1</span>Please enter the following information.</legend>
         <label for="name">Name</label>
         <input id="name" type="text"
                name="name"
@@ -188,9 +173,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                   required></textarea>
 
 
-        <button type="submit" class="btn btn-primary">Send</button>
+        <button type="submit">Send</button>
 
     </fieldset>
+    <h4 style="color:green; text-align:center;"><?php echo $success_message ?></h4>
 </form>
 
 
@@ -239,7 +225,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <!-- Contact Form JavaScript -->
 <script src="js/jqBootstrapValidation.js"></script>
-<script src="js/contact_me.js"></script>
 
 <!-- Custom scripts for this template -->
 <script src="js/clean-blog.min.js"></script>

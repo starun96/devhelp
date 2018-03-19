@@ -1,9 +1,6 @@
 {
     "require": {
-
-        "phpmailer/phpmailer": "^6.0"
-
-        "bitpay/php-client": "~2.2"
-
+        "phpmailer/phpmailer": "^6.0",
+        "bitpay/php-client": "^3.0"
     }
 }

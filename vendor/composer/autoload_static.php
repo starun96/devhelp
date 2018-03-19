@@ -4,15 +4,7 @@
 
 namespace Composer\Autoload;
 
-
-class ComposerStaticInitdac0ac97fb9937317ce8f40c4774fb2c
-{
-    public static $prefixLengthsPsr4 = array (
-        'P' => 
-        array (
-            'PHPMailer\\PHPMailer\\' => 20,
-
-class ComposerStaticInit2cd94397191248bf5edf47457d9fd4af
+class ComposerStaticInitde1b8fe3dfb14f94c377c47ca8653766
 {
     public static $prefixLengthsPsr4 = array (
         'S' => 
@@ -24,24 +16,11 @@ class ComposerStaticInit2cd94397191248bf5edf47457d9fd4af
         'P' => 
         array (
             'Psr\\Container\\' => 14,
-
+            'PHPMailer\\PHPMailer\\' => 20,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-
-        'PHPMailer\\PHPMailer\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
-        ),
-    );
-
-    public static function getInitializer(ClassLoader $loader)
-    {
-        return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitdac0ac97fb9937317ce8f40c4774fb2c::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitdac0ac97fb9937317ce8f40c4774fb2c::$prefixDirsPsr4;
-
         'Symfony\\Component\\Filesystem\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/filesystem',
@@ -58,6 +37,10 @@ class ComposerStaticInit2cd94397191248bf5edf47457d9fd4af
         array (
             0 => __DIR__ . '/..' . '/psr/container/src',
         ),
+        'PHPMailer\\PHPMailer\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
+        ),
     );
 
     public static $fallbackDirsPsr4 = array (
@@ -67,10 +50,9 @@ class ComposerStaticInit2cd94397191248bf5edf47457d9fd4af
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit2cd94397191248bf5edf47457d9fd4af::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit2cd94397191248bf5edf47457d9fd4af::$prefixDirsPsr4;
-            $loader->fallbackDirsPsr4 = ComposerStaticInit2cd94397191248bf5edf47457d9fd4af::$fallbackDirsPsr4;
-
+            $loader->prefixLengthsPsr4 = ComposerStaticInitde1b8fe3dfb14f94c377c47ca8653766::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitde1b8fe3dfb14f94c377c47ca8653766::$prefixDirsPsr4;
+            $loader->fallbackDirsPsr4 = ComposerStaticInitde1b8fe3dfb14f94c377c47ca8653766::$fallbackDirsPsr4;
 
         }, null, ClassLoader::class);
     }
