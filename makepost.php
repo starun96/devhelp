@@ -103,7 +103,7 @@
         $servername="localhost";
         $username="root";
         $password="";
-        $dbname="bowensDB";
+        $dbname="bowensDB2";
 
         // Create connection
         $conn=new mysqli($servername, $username, $password);
@@ -129,7 +129,7 @@
         id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
         title VARCHAR(3000) NOT NULL,
         subtitle VARCHAR(30000) NOT NULL,
-        price INT(500) NOT NULL,
+        price INT(255) NOT NULL,
         content VARCHAR(10000) NOT NULL
         )";
 
@@ -177,37 +177,37 @@
         <fieldset>
           <legend><span class="number">2</span>Main Content</legend>
           <label for="bio">Description of Service you could provide:</label>
-          <textarea id="bio" name="user_content"></textarea>
+          <textarea id="bio" name="user_content" rows="20"></textarea>
         </fieldset>
-        <fieldset>
-        <!-- <label for="job">Job Role:</label>
-        <select id="job" name="user_job">
-          <optgroup label="Web">
-            <option value="frontend_developer">Front-End Developer</option>
-            <option value="php_developor">PHP Developer</option>
-            <option value="python_developer">Python Developer</option>
-            <option value="rails_developer"> Rails Developer</option>
-            <option value="web_designer">Web Designer</option>
-            <option value="WordPress_developer">WordPress Developer</option>
-          </optgroup>
-          <optgroup label="Mobile">
-            <option value="Android_developer">Androild Developer</option>
-            <option value="iOS_developer">iOS Developer</option>
-            <option value="mobile_designer">Mobile Designer</option>
-          </optgroup>
-          <optgroup label="Business">
-            <option value="business_owner">Business Owner</option>
-            <option value="freelancer">Freelancer</option>
-          </optgroup>
-          <optgroup label="Other">
-            <option value="secretary">Secretary</option>
-            <option value="maintenance">Maintenance</option>
-          </optgroup>
-        </select> -->
+          <!--<fieldset>
+           <label for="job">Job Role:</label>
+          <select id="job" name="user_job">
+            <optgroup label="Web">
+              <option value="frontend_developer">Front-End Developer</option>
+              <option value="php_developor">PHP Developer</option>
+              <option value="python_developer">Python Developer</option>
+              <option value="rails_developer"> Rails Developer</option>
+              <option value="web_designer">Web Designer</option>
+              <option value="WordPress_developer">WordPress Developer</option>
+            </optgroup>
+            <optgroup label="Mobile">
+              <option value="Android_developer">Androild Developer</option>
+              <option value="iOS_developer">iOS Developer</option>
+              <option value="mobile_designer">Mobile Designer</option>
+            </optgroup>
+            <optgroup label="Business">
+              <option value="business_owner">Business Owner</option>
+              <option value="freelancer">Freelancer</option>
+            </optgroup>
+            <optgroup label="Other">
+              <option value="secretary">Secretary</option>
+              <option value="maintenance">Maintenance</option>
+            </optgroup>
+          </select>
 
 
-        </fieldset>
-        <button type="submit">Post!</button>
+        </fieldset> -->
+        <button type="submit">Create Post</button>
       </form>
 
     </body>

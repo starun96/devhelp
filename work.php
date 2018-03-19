@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Clean Blog - Start Bootstrap Theme</title>
+    <title>Worke</title>
 
     <!-- Bootstrap core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -66,23 +66,21 @@
           <div class="col-lg-8 col-md-10 mx-auto">
             <div class="site-heading">
               <h1>Developer Pool</h1>
-              <span class="subheading">Find the right man for the right job!</span>
+              <span class="subheading">Find the right person for the right job!</span>
             </div>
           </div>
         </div>
       </div>
     </header>
 
-    <!-- Pager -->
-    <div class="clearfix">
-      <a class="btn btn-primary float-right" href="makepost.php">Post Yourself</a>
-    </div>
-
 
     <!-- Main Content -->
     <div class="container">
       <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
+            <div class="clearfix">
+                <a class="btn btn-primary " href="makepost.php">Post Yourself</a>
+            </div>
           <div class="post-preview">
             <a href="bowenpost.php">
 
@@ -119,7 +117,7 @@
           $servername="localhost";
           $username="root";
           $password="";
-          $dbname="bowensDB";
+          $dbname="bowensDB2";
 
           $conn=new mysqli($servername, $username, $password, $dbname);
           // Check connection
@@ -127,9 +125,9 @@
               die("Connection failed: " . $conn->connect_error);
           }
           // "Connected successfully";
-          $sql = "SELECT title, subtitle, price, content FROM DevhelpPosts;";
+          $sql = "SELECT title, subtitle, price, content FROM DevhelpPosts";
           $results = $conn->query($sql);
-          if ($results->num_rows >0){
+          if ($results->num_rows > 0){
             while($row = $results->fetch_assoc()){
               $title = $row["title"];
               $subtitle = $row["subtitle"];
