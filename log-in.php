@@ -70,7 +70,6 @@
         </div>
       </div>
     </header>
-<body>
 
       <form action="index.php" method="post">
 
