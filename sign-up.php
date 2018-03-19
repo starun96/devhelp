@@ -1,3 +1,12 @@
+<?php
+//Import PHPMailer classes into the global namespace
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require 'vendor/autoload.php';
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -58,26 +67,26 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
 
 
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="index.php">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="work.php">Work</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="about.php">About</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="sign-up.php">Sign Up</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="log-in.php">Log In</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="contact.php">Contact</a>
-            </li>
-          </ul>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.php">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="work.php">Work</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="about.php">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="sign-up.php">Sign Up</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="log-in.php">Log In</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="contact.php">Contact</a>
+                </li>
+            </ul>
 
         </div>
     </div>
@@ -95,50 +104,47 @@
             </div>
         </div>
 
-      </div>
-    </header>
+    </div>
+</header>
 
 
+<?php
+$name = $email = $userpassword = $address = $city = $state = $zip = $success_message = "";
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $name = $_POST["user_name"];
+    $email = $_POST["user_email"];
+    $userpassword = $_POST["user_password"];
+    $address = $_POST["address"];
+    $city = $_POST["user_city"];
+    $state = $_POST["state"];
+    $zip = $_POST["user_zip"];
 
-    <body>
-      <?php
-        $name = $email = $userpassword = $address = $city = $state = $zip = "";
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $name=$_POST["user_name"];
-        $email=$_POST["user_email"];
-        $userpassword=$_POST["user_password"];
-        $address=$_POST["address"];
-        $city=$_POST["user_city"];
-        $state=$_POST["state"];
-        $zip=$_POST["user_zip"];
-        }
+    $servername = "localhost";
+    $username = "root";
+    $password = "";
+    $dbname = "bowensDB2";
 
-        $servername="localhost";
-        $username="root";
-        $password="";
-        $dbname="bowensDB";
+// Create connection
+    $conn = new mysqli($servername, $username, $password);
 
-        // Create connection
-        $conn=new mysqli($servername, $username, $password);
+// Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+// "Connected successfully";
 
-        // Check connection
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
-        }
-       // "Connected successfully";
+//Create database, only need to be done once.
+    $sql = "CREATE DATABASE bowensDB2";
+    if ($conn->query($sql) === TRUE) {
+        //echo "Database created successfully";
+    } else {
+        // echo "Error creating database: " . $conn->error;
+    }
 
-        //Create database, only need to be done once.
-        $sql = "CREATE DATABASE bowensDB";
-        if ($conn->query($sql) === TRUE) {
-            //echo "Database created successfully";
-        } else {
-           // echo "Error creating database: " . $conn->error;
-        }
+    $conn = new mysqli($servername, $username, $password, $dbname);
 
-        $conn=new mysqli($servername, $username, $password, $dbname);
-
-       // sql to create table
-        $sql = "CREATE TABLE DevhelpUsers (
+// sql to create table
+    $sql = "CREATE TABLE DevhelpUsers (
         id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
         username VARCHAR(30) NOT NULL,
         email VARCHAR(30) NOT NULL,
@@ -149,23 +155,20 @@
         zipcode VARCHAR(50) NOT NULL
         )";
 
-        if ($conn->query($sql) === TRUE) {
-           // echo "Table MyGuests created successfully";
-        } else {
-           // echo "Error creating table: " . $conn->error;
-        }
+    if ($conn->query($sql) === TRUE) {
+        // echo "Table MyGuests created successfully";
+    } else {
+        // echo "Error creating table: " . $conn->error;
+    }
 
+//insert into table.
+    if ($name != "") {
+        //First, fetch to see if email already exist in bowensDB.
 
-
-        //insert into table.
-        if ($name != ""){
-          //First, fetch to see if email already exist in bowensDB.
-          $query = mysqli_query($conn,"SELECT email FROM DevhelpUsers WHERE email='$email'");
-
-          if (mysqli_num_rows($query) != 0)
-          {
+        $emails_result = $conn->query("SELECT email FROM DevhelpUsers WHERE email='$email'");
+        if ($emails_result->num_rows != 0) {
             echo '<div style="text-align:center;">Email already exists!<div>';
-          }else{
+        } else {
             $hashed_pw = password_hash($userpassword, PASSWORD_DEFAULT);
             $sql = "INSERT INTO DevhelpUsers (username, email, password, address, city, state, zipcode)
             VALUES ('$name', '$email', '$hashed_pw', '$address', '$city', '$state', '$zip')";
@@ -173,16 +176,59 @@
             if ($conn->query($sql) === TRUE) {
                 //echo "New record created successfully";
             } else {
-               // echo "Error: " . $sql . "<br>" . $conn->error;
+                // echo "Error: " . $sql . "<br>" . $conn->error;
             }
-          }
+
+            // send email
+
+            $mail = new PHPMailer(true);
+//Tell PHPMailer to use SMTP
+            $mail->isSMTP();
+//Enable SMTP debugging
+// 0 = off (for production use)
+// 1 = client messages
+// 2 = client and server messages
+            $mail->SMTPDebug = 0;
+//Set the hostname of the mail server
+            $mail->Host = 'smtp.gmail.com';
+            $mail->Port = 587;
+            $mail->SMTPSecure = 'tls';
+//Whether to use SMTP authentication
+            $mail->SMTPAuth = true;
+//Username to use for SMTP authentication - use full email address for gmail
+            $mail->Username = 'devhelptest@gmail.com';
+//Password to use for SMTP authentication
+            $mail->Password = "KZQ4Klh6crEk";
+//Set who the message is to be sent from
+            try {
+                $mail->setFrom('devhelptest@gmail.com', "DevHelp");
+            } catch (Exception $e) {
+                die("The \"from\" address could not be determined.");
+            }
+//Set who the message is to be sent to
+            $mail->addAddress($email);
+//Set the subject line
+            $mail->Subject = 'PHPMailer GMail SMTP test';
+//Read an HTML message body from an external file, convert referenced images to embedded,
+//convert HTML into a basic plain-text alternative body
+            $mail->Body = "Welcome to DevHelp!";
+//Replace the plain text body with one created manually
+            $mail->AltBody = 'This is a plain-text message body';
+
+
+            try {
+                $mail->send();
+            } catch (Exception $e) {
+                echo "Message not sent. " . $mail->ErrorInfo;
+            }
 
         }
     }
+
 }
 
 
-*/?>
+?>
 
 <form id="sign-up-form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>"
       method="post">
@@ -215,8 +261,9 @@
                oninvalid="setCustomValidity('Letters only please')"
                onchange="try{setCustomValidity('')}catch(e){}" required>
 
+        <label for="state">State:</label>
         <select name="state" id="state" required>
-            <option value="" selected="selected">State:</option>
+            <option value="" selected="selected">Select a state:</option>
             <option value="AL">Alabama</option>
             <option value="AK">Alaska</option>
             <option value="AZ">Arizona</option>

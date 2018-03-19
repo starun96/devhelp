@@ -1,16 +1,14 @@
 <?php
 /**
- * @license Copyright 2011-2014 BitPay Inc., MIT License
+ * @license Copyright 2011-2015 BitPay Inc., MIT License
  * see https://github.com/bitpay/php-bitpay-client/blob/master/LICENSE
  */
 
 namespace Bitpay;
 
 date_default_timezone_set('UTC');
-// BitPay uses UTC timezone for all its datetimes
 
 /**
- *
  * @package Bitpay
  */
 class Invoice implements InvoiceInterface
@@ -18,164 +16,143 @@ class Invoice implements InvoiceInterface
     /**
      * @var CurrencyInterface
      */
-    protected $currency;
+    protected $currency = null;
 
     /**
      * @var string
      */
-    protected $orderId;
+    protected $orderId = '';
 
     /**
      * @var ItemInterface
      */
-    protected $item;
+    protected $item = null;
 
     /**
      * @var string
      */
-    protected $transactionSpeed = self::TRANSACTION_SPEED_MEDIUM;
+    protected $transactionSpeed = '';
 
     /**
      * @var string
      */
-    protected $notificationEmail;
+    protected $notificationEmail = '';
 
     /**
      * @var string
      */
-    protected $notificationUrl;
+    protected $notificationUrl = '';
 
     /**
      * @var string
      */
-    protected $redirectUrl;
+    protected $redirectUrl = '';
 
     /**
      * @var string
      */
-    protected $posData;
+    protected $posData = '';
 
     /**
      * @var string
      */
-    protected $status;
+    protected $status = '';
 
     /**
      * @var boolean
      */
-    protected $fullNotifications = true;
-
-    /**
-     * @var boolean
-     */
-    protected $extendedNotifications = false;
+    protected $fullNotifications = false;
 
     /**
      * @var string
      */
-    protected $id;
+    protected $id = '';
 
     /**
      * @var string
      */
-    protected $url;
+    protected $url = '';
 
     /**
-     * @deprecated Deprecated with introduction of BCH
      * @var float
      */
-    protected $btcPrice;
+    protected $btcPrice = 0.000000;
 
     /**
      * @var \DateTime
      */
-    protected $invoiceTime;
+    protected $invoiceTime = null;
 
     /**
      * @var \DateTime
      */
-    protected $expirationTime;
+    protected $expirationTime = null;
 
     /**
-     * @var DateTime
+     * @var \DateTime
      */
-    protected $currentTime;
+    protected $currentTime = null;
 
     /**
      * @var BuyerInterface
      */
-    protected $buyer;
-
-    /**
-     * @var
-     */
-    protected $exceptionStatus;
-
-    /**
-     * @deprecated Deprecated with introduction of BCH
-     * @var
-     */
-    protected $btcPaid;
-
-     /**
-     * @var
-     */
-    protected $amountPaid;
-
-    /**
-     * @deprecated Deprecated with introduction of BCH
-     * @var
-     */
-    protected $rate;
-
-    /**
-     * @var
-     */
-    protected $token;
-
-    /**
-     * @var array
-     */
-    protected $refundAddresses;
+    protected $buyer = null;
 
     /**
      * @var string
      */
-    protected $transactionCurrency;
+    protected $exceptionStatus = '';
 
     /**
-     * @var array
+     * @var float
      */
-    protected $exchangeRates;
+    protected $btcPaid = 0.000000;
 
     /**
-     * @var array
+     * @var float
      */
-    protected $paymentSubtotals;
+    protected $rate = 0.000000;
 
     /**
-     * @var array
+     * @var Token
      */
-    protected $paymentTotals;
+    protected $token = null;
 
+    /**
+     * @var PaymentUrlInterface
+     */
+    protected $paymentUrls = null;
+
+    public function __construct($transactionSpeed = self::TRANSACTION_SPEED_LOW, $fullNotifications = false, $item = null, $currency = null, $orderId = '', $posData = '')
+    {
+        $this->currency = $currency;
+        $this->transactionSpeed  = $transactionSpeed;
+        $this->fullNotifications = $fullNotifications;
+        $this->item = $item;
+        $this->orderId = $orderId;
+        $this->posData = $posData;
+    }
 
     /**
      * @inheritdoc
      */
     public function getPrice()
     {
-        return $this->getItem()->getPrice();
+        if (is_a($this->item, '\Bitpay\Item')) {
+            return $this->getItem()->getPrice();
+        } else {
+            return 0.000000;
+        }
     }
 
     /**
      * @param float $price
-     *
-     * @return InvoiceInterface
+     * @return Invoice
      */
     public function setPrice($price)
     {
-        if (!empty($price)) {
-            $this->getItem()->setPrice($price);
+        if (is_numeric($price)) {
+            $this->getItem()->setPrice(floatval($price));
         }
 
         return $this;
@@ -186,17 +163,20 @@ class Invoice implements InvoiceInterface
      */
     public function getCurrency()
     {
+        if ($this->currency === null) {
+            $this->currency = new Currency('BTC');
+        }
+
         return $this->currency;
     }
 
     /**
      * @param CurrencyInterface $currency
-     *
-     * @return InvoiceInterface
+     * @return Invoice
      */
     public function setCurrency(CurrencyInterface $currency)
     {
-        if (!empty($currency)) {
+        if (is_a($currency, '\Bitpay\Currency')) {
             $this->currency = $currency;
         }
 
@@ -208,10 +188,7 @@ class Invoice implements InvoiceInterface
      */
     public function getItem()
     {
-        // If there is not an item already set, we need to use a default item
-        // so that some methods do not throw errors about methods and
-        // non-objects.
-        if (null == $this->item) {
+        if (null === $this->item) {
             $this->item = new Item();
         }
 
@@ -220,12 +197,11 @@ class Invoice implements InvoiceInterface
 
     /**
      * @param ItemInterface $item
-     *
-     * @return InvoiceInterface
+     * @return Invoice
      */
     public function setItem(ItemInterface $item)
     {
-        if (!empty($item)) {
+        if (is_a($item, '\Bitpay\Item')) {
             $this->item = $item;
         }
 
@@ -237,8 +213,7 @@ class Invoice implements InvoiceInterface
      */
     public function getBuyer()
     {
-        // Same logic as getItem method
-        if (null == $this->buyer) {
+        if ($this->buyer === null) {
             $this->buyer = new Buyer();
         }
 
@@ -247,12 +222,11 @@ class Invoice implements InvoiceInterface
 
     /**
      * @param BuyerInterface $buyer
-     *
-     * @return InvoiceInterface
+     * @return Invoice
      */
     public function setBuyer(BuyerInterface $buyer)
     {
-        if (!empty($buyer)) {
+        if (is_a($buyer, '\Bitpay\Buyer')) {
             $this->buyer = $buyer;
         }
 
@@ -269,13 +243,20 @@ class Invoice implements InvoiceInterface
 
     /**
      * @param string $transactionSpeed
-     *
-     * @return InvoiceInterface
+     * @return Invoice
      */
     public function setTransactionSpeed($transactionSpeed)
     {
-        if (!empty($transactionSpeed) && ctype_print($transactionSpeed)) {
-            $this->transactionSpeed = trim($transactionSpeed);
+        switch (strtolower(trim($transactionSpeed))) {
+            case 'high':
+                $this->transactionSpeed = self::TRANSACTION_SPEED_HIGH;
+                break;
+            case 'medium':
+                $this->transactionSpeed = self::TRANSACTION_SPEED_MEDIUM;
+                break;
+            case 'low':
+            default:
+                $this->transactionSpeed = self::TRANSACTION_SPEED_LOW;
         }
 
         return $this;
@@ -291,12 +272,11 @@ class Invoice implements InvoiceInterface
 
     /**
      * @param string $notificationEmail
-     *
-     * @return InvoiceInterface
+     * @return Invoice
      */
     public function setNotificationEmail($notificationEmail)
     {
-        if (!empty($notificationEmail) && ctype_print($notificationEmail)) {
+        if (filter_var($notificationEmail, FILTER_VALIDATE_EMAIL)) {
             $this->notificationEmail = trim($notificationEmail);
         }
 
@@ -313,12 +293,11 @@ class Invoice implements InvoiceInterface
 
     /**
      * @param string $notificationUrl
-     *
-     * @return InvoiceInterface
+     * @return Invoice
      */
     public function setNotificationUrl($notificationUrl)
     {
-        if (!empty($notificationUrl) && ctype_print($notificationUrl)) {
+        if (preg_match("/\b(?:(?:https?|ftp):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+&@#\/%=~_|]/i", $notificationUrl)) {
             $this->notificationUrl = trim($notificationUrl);
         }
 
@@ -335,12 +314,11 @@ class Invoice implements InvoiceInterface
 
     /**
      * @param string $redirectUrl
-     *
-     * @return InvoiceInterface
+     * @return Invoice
      */
     public function setRedirectUrl($redirectUrl)
     {
-        if (!empty($redirectUrl) && ctype_print($redirectUrl)) {
+        if (preg_match("/\b(?:(?:https?|ftp):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+&@#\/%=~_|]/i", $redirectUrl)) {
             $this->redirectUrl = trim($redirectUrl);
         }
 
@@ -357,12 +335,11 @@ class Invoice implements InvoiceInterface
 
     /**
      * @param string $posData
-     *
-     * @return InvoiceInterface
+     * @return Invoice
      */
     public function setPosData($posData)
     {
-        if (!empty($posData)) {
+        if (is_string($posData)) {
             $this->posData = $posData;
         }
 
@@ -379,12 +356,11 @@ class Invoice implements InvoiceInterface
 
     /**
      * @param string $status
-     *
-     * @return InvoiceInterface
+     * @return Invoice
      */
     public function setStatus($status)
     {
-        if (!empty($status) && ctype_print($status)) {
+        if (is_string($status)) {
             $this->status = trim($status);
         }
 
@@ -409,21 +385,6 @@ class Invoice implements InvoiceInterface
     /**
      * @inheritdoc
      */
-    public function isExtendedNotifications()
-    {
-        return $this->extendedNotifications;
-    }
-
-    public function setExtendedNotifications($notifications)
-    {
-        $this->extendedNotifications = (boolean) $notifications;
-
-        return $this;
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function getId()
     {
         return $this->id;
@@ -431,12 +392,11 @@ class Invoice implements InvoiceInterface
 
     /**
      * @param string $id
-     *
-     * @return InvoiceInterface
+     * @return Invoice
      */
     public function setId($id)
     {
-        if (!empty($id) && ctype_print($id)) {
+        if (is_string($id)) {
             $this->id = trim($id);
         }
 
@@ -453,12 +413,11 @@ class Invoice implements InvoiceInterface
 
     /**
      * @param string $url
-     *
-     * @return InvoiceInterface
+     * @return Invoice
      */
     public function setUrl($url)
     {
-        if (!empty($url) && ctype_print($url)) {
+        if (preg_match("/\b(?:(?:https?|ftp):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+&@#\/%=~_|]/i", $url)) {
             $this->url = trim($url);
         }
 
@@ -466,7 +425,6 @@ class Invoice implements InvoiceInterface
     }
 
     /**
-     * @deprecated Deprecated with introduction of BCH
      * @inheritdoc
      */
     public function getBtcPrice()
@@ -475,15 +433,13 @@ class Invoice implements InvoiceInterface
     }
 
     /**
-     * @deprecated Deprecated with introduction of BCH
      * @param float $btcPrice
-     *
-     * @return InvoiceInterface
+     * @return Invoice
      */
     public function setBtcPrice($btcPrice)
     {
-        if (!empty($btcPrice)) {
-            $this->btcPrice = $btcPrice;
+        if (is_numeric($btcPrice)) {
+            $this->btcPrice = floatval($btcPrice);
         }
 
         return $this;
@@ -498,9 +454,8 @@ class Invoice implements InvoiceInterface
     }
 
     /**
-     * @param DateTime $invoiceTime
-     *
-     * @return InvoiceInterface
+     * @param \DateTime $invoiceTime
+     * @return Invoice
      */
     public function setInvoiceTime($invoiceTime)
     {
@@ -523,9 +478,8 @@ class Invoice implements InvoiceInterface
     }
 
     /**
-     * @param DateTime $expirationTime
-     *
-     * return InvoiceInterface
+     * @param \DateTime $expirationTime
+     * return Invoice
      */
     public function setExpirationTime($expirationTime)
     {
@@ -548,9 +502,8 @@ class Invoice implements InvoiceInterface
     }
 
     /**
-     * @param DateTime $currentTime
-     *
-     * @return InvoiceInterface
+     * @param \DateTime $currentTime
+     * @return Invoice
      */
     public function setCurrentTime($currentTime)
     {
@@ -561,6 +514,7 @@ class Invoice implements InvoiceInterface
             $currentDateTime->setTimestamp($currentTime);
             $this->currentTime = $currentDateTime;
         }
+
         return $this;
     }
 
@@ -574,12 +528,11 @@ class Invoice implements InvoiceInterface
 
     /**
      * @param string $orderId
-     *
-     * @return InvoiceInterface
+     * @return Invoice
      */
     public function setOrderId($orderId)
     {
-        if (!empty($orderId) && ctype_print($orderId)) {
+        if (is_string($orderId)) {
             $this->orderId = trim($orderId);
         }
 
@@ -618,7 +571,7 @@ class Invoice implements InvoiceInterface
         $firstName = $this->getBuyer()->getFirstName();
         $lastName  = $this->getBuyer()->getLastName();
 
-        return trim($firstName.' '.$lastName);
+        return trim($firstName . ' ' . $lastName);
     }
 
     /**
@@ -699,8 +652,7 @@ class Invoice implements InvoiceInterface
 
     /**
      * @param
-     *
-     * @return InvoiceInterface
+     * @return Invoice
      */
     public function setExceptionStatus($exceptionStatus)
     {
@@ -709,7 +661,6 @@ class Invoice implements InvoiceInterface
     }
 
     /**
-     * @deprecated Deprecated with introduction of BCH
      * @param void
      * @return
      */
@@ -719,13 +670,12 @@ class Invoice implements InvoiceInterface
     }
 
     /**
-     * @deprecated Deprecated with introduction of BCH
      * @param
      * @return Invoice
      */
     public function setBtcPaid($btcPaid)
     {
-        if (isset($btcPaid)) {
+        if (is_numeric($btcPaid)) {
             $this->btcPaid = $btcPaid;
         }
 
@@ -733,29 +683,6 @@ class Invoice implements InvoiceInterface
     }
 
     /**
-     * @param void
-     * @return
-     */
-    public function getAmountPaid()
-    {
-        return $this->amountPaid;
-    }
-
-    /**
-     * @param
-     * @return Invoice
-     */
-    public function setAmountPaid($amountPaid)
-    {
-        if (isset($amountPaid)) {
-            $this->amountPaid = $amountPaid;
-        }
-
-        return $this;
-    }
-
-    /**
-     * @deprecated Deprecated with introduction of BCH
      * @param void
      * @return Invoice
      */
@@ -765,41 +692,17 @@ class Invoice implements InvoiceInterface
     }
 
     /**
-     * @deprecated Deprecated with introduction of BCH
      * @param
      * @return
      */
     public function setRate($rate)
     {
-        if (!empty($rate)) {
-            $this->rate = $rate;
+        if (is_numeric($rate)) {
+            $this->rate = floatval($rate);
         }
 
         return $this;
     }
-
-    /**
-     * @param void
-     * @return Invoice
-     */
-    public function getExchangeRates()
-    {
-        return $this->exchangeRates;
-    }
-
-    /**
-     * @param
-     * @return
-     */
-    public function setExchangeRates($exchangeRates)
-    {
-        if (!empty($exchangeRates)) {
-            $this->exchangeRates = $exchangeRates;
-        }
-
-        return $this;
-    }
-
 
     /**
      * @return TokenInterface
@@ -808,99 +711,49 @@ class Invoice implements InvoiceInterface
     {
         return $this->token;
     }
+
     /**
      * @param TokenInterface $token
-     * @return InvoiceInterface
+     * @return Invoice
      */
     public function setToken(TokenInterface $token)
     {
-        $this->token = $token;
-        return $this;
-    }
-    /**
-     * @inheritdoc
-     */
-    public function getRefundAddresses()
-    {
-        return $this->refundAddresses;
-    }
-
-    /**
-     * @param array $refundAddress
-     *
-     * @return InvoiceInterface
-     */
-    public function setRefundAddresses($refundAddresses)
-    {
-        if (!empty($refundAddresses)) {
-            $this->refundAddresses = $refundAddresses;
+        if (is_a($token, '\Bitpay\Token')) {
+            $this->token = $token;
         }
 
         return $this;
     }
 
     /**
-     * @inheritdoc
+     * @return PaymentUrlInterface
      */
-    public function getTransactionCurrency()
+    public function getPaymentUrls()
     {
-        return $this->transactionCurrency;
-    }
-
-    /**
-     * @param string $transactionCurrency
-     *
-     * @return InvoiceInterface
-     */
-    public function setTransactionCurrency($transactionCurrency)
-    {
-        if (!empty($transactionCurrency) && ctype_print($transactionCurrency)) {
-            $this->transactionCurrency = trim($transactionCurrency);
+        if ($this->paymentUrls === null) {
+            $this->paymentUrls = new PaymentUrlSet();
         }
 
-        return $this;
+        return $this->paymentUrls;
     }
 
     /**
-     * @param void
+     * @param PaymentUrlInterface $paymentUrls
      * @return Invoice
      */
-    public function getPaymentSubtotals()
+    public function setPaymentUrls(PaymentUrlInterface $paymentUrls)
     {
-        return $this->paymentSubtotals;
-    }
-
-    /**
-     * @param
-     * @return
-     */
-    public function setPaymentSubtotals($paymentSubtotals)
-    {
-        if (!empty($paymentSubtotals)) {
-            $this->paymentSubtotals = $paymentSubtotals;
-        }
+        $this->paymentUrls = $paymentUrls;
 
         return $this;
     }
-     /**
-     * @param void
-     * @return Invoice
-     */
-    public function getPaymentTotals()
-    {
-        return $this->paymentSubtotals;
-    }
 
     /**
-     * @param
-     * @return
+     * @param string $paymentUrlType
+     * @return string
      */
-    public function setPaymentTotals($paymentTotals)
+    public function getPaymentUrl($paymentUrlType)
     {
-        if (!empty($paymentTotals)) {
-            $this->paymentTotals = $paymentTotals;
-        }
-
-        return $this;
+        return $this->getPaymentUrls()->getUrl($paymentUrlType);
     }
 }
