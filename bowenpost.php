@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Clean Blog - Start Bootstrap Theme</title>
+    <title>DevHelp: Post</title>
 
     <!-- Bootstrap core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -17,6 +17,9 @@
     <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    <!-- Javascript -->
+    <script type="text/javascript" src="/js/script.js"></script>
 
     <!-- Custom styles for this template -->
     <link href="css/clean-blog.min.css" rel="stylesheet">
@@ -59,112 +62,41 @@
     </nav>
 
     <!-- Page Header -->
-    <header class="masthead" style="background-image: url('img/home-bg.jpg')">
+    <header class="masthead" style="background-image: url('img/post-bg.jpg')">
       <div class="overlay"></div>
       <div class="container">
         <div class="row">
           <div class="col-lg-8 col-md-10 mx-auto">
-            <div class="site-heading">
-              <h1>Developer Pool</h1>
-              <span class="subheading">Find the right man for the right job!</span>
+            <div class="post-heading">
+              <h1>Bowen Sun</h1>
+              <h2 class="subheading">I will build your iOS app for you.</h2>
+              <span class="meta">Posted by
+                <a href="#">Bowen Sun</a>
+                on March 17, 2018</span>
             </div>
           </div>
         </div>
       </div>
     </header>
 
-    <!-- Pager -->
-    <div class="clearfix">
-      <a class="btn btn-primary float-right" href="makepost.php">Post Yourself</a>
-    </div>
-
-
-    <!-- Main Content -->
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-8 col-md-10 mx-auto">
-          <div class="post-preview">
-            <a href="bowenpost.php">
-
-              <h2 class="post-title">
-                Bowen Sun
-              </h2>
-              <h3 class="post-subtitle">
-                I will build your iOS app for you.
-              </h3>
-            </a>
-            <p class="post-meta">Posted by
-              <a href="#">Bowen</a>
-              on March 17, 2018</p>
+    <!-- Post Content -->
+    <article>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-md-10 mx-auto">
+            <p>
+              I have been developing for iOS for three years and I currently have three published apps with thousands of users. Price is 3000 dollars.
+            </p>
+            <form action="https://test.bitpay.com/checkout" method="post" >
+              <input type="hidden" name="action" value="checkout" />
+              <input type="hidden" name="posData" value="" />
+              <input type="hidden" name="data" value="7/f26+/YTFW63Wx80y4/F8QSOpxlYNCQpHVS8p64ZBO0ll3Ev+LJWl/Akh7qOvLP2pdBXux8TpIY/lKUWXzUnLKaIFCpZVNS9RRt50NuadDLyFvkRp0e85cbtw7THPVx" />
+              <input type="image" src="https://test.bitpay.com/img/button-large.png" border="0" name="submit" alt="BitPay, the easy way to pay with bitcoins." >
+            </form>
           </div>
-              <hr>
-
-          <div class="post-preview">
-            <a href="tarunpost.php">
-
-              <h2 class="post-title">
-                Tarun - experienced Android Developer
-              </h2>
-              <h3 class="post-subtitle">
-                Asking 1 bitcoin for each project, including one month support after launch.
-              </h3>
-            </a>
-            <p class="post-meta">Posted by
-              <a href="#">Bowen</a>
-              on March 17, 2018</p>
-          </div>
-              <hr>
-          <?php
-          $title = $subtitle = $price = $maincontent = "";
-          $servername="localhost";
-          $username="root";
-          $password="";
-          $dbname="bowensDB";
-
-          $conn=new mysqli($servername, $username, $password, $dbname);
-          // Check connection
-          if ($conn->connect_error) {
-              die("Connection failed: " . $conn->connect_error);
-          }
-          // "Connected successfully";
-          $sql = "SELECT title, subtitle, price, content FROM DevhelpPosts;";
-          $results = $conn->query($sql);
-          if ($results->num_rows >0){
-            while($row = $results->fetch_assoc()){
-              $title = $row["title"];
-              $subtitle = $row["subtitle"];
-              //echo "title:" .$row["title"]. "subtitle:" .$row["subtitle"]. "<br>";
-              //echo ('<a href="user_account.php?id=' . $title . '">' . $subtitle . '</a>');
-              echo '<div class="post-preview">
-                <a href="post.php">
-
-                  <h2 class="post-title">
-                    '. $title .'
-                  </h2>
-                  <h3 class="post-subtitle">
-                    '. $subtitle .'
-                  </h3>
-                </a>
-                <p class="post-meta">Posted by
-                  <a href="#">Bowen</a>
-                  on March 17, 2018</p>
-              </div>
-                  <hr>';
-            }
-          }
-          ?>
-
-
-
-
-
-
-
         </div>
       </div>
-    </div>
-
-
+    </article>
 
     <hr>
 
