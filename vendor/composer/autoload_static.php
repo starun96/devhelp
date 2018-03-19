@@ -4,16 +4,32 @@
 
 namespace Composer\Autoload;
 
+
 class ComposerStaticInitdac0ac97fb9937317ce8f40c4774fb2c
 {
     public static $prefixLengthsPsr4 = array (
         'P' => 
         array (
             'PHPMailer\\PHPMailer\\' => 20,
+
+class ComposerStaticInit2cd94397191248bf5edf47457d9fd4af
+{
+    public static $prefixLengthsPsr4 = array (
+        'S' => 
+        array (
+            'Symfony\\Component\\Filesystem\\' => 29,
+            'Symfony\\Component\\DependencyInjection\\' => 38,
+            'Symfony\\Component\\Config\\' => 25,
+        ),
+        'P' => 
+        array (
+            'Psr\\Container\\' => 14,
+
         ),
     );
 
     public static $prefixDirsPsr4 = array (
+
         'PHPMailer\\PHPMailer\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
@@ -25,6 +41,36 @@ class ComposerStaticInitdac0ac97fb9937317ce8f40c4774fb2c
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInitdac0ac97fb9937317ce8f40c4774fb2c::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInitdac0ac97fb9937317ce8f40c4774fb2c::$prefixDirsPsr4;
+
+        'Symfony\\Component\\Filesystem\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/filesystem',
+        ),
+        'Symfony\\Component\\DependencyInjection\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/dependency-injection',
+        ),
+        'Symfony\\Component\\Config\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/config',
+        ),
+        'Psr\\Container\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/container/src',
+        ),
+    );
+
+    public static $fallbackDirsPsr4 = array (
+        0 => __DIR__ . '/..' . '/bitpay/php-client/src',
+    );
+
+    public static function getInitializer(ClassLoader $loader)
+    {
+        return \Closure::bind(function () use ($loader) {
+            $loader->prefixLengthsPsr4 = ComposerStaticInit2cd94397191248bf5edf47457d9fd4af::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit2cd94397191248bf5edf47457d9fd4af::$prefixDirsPsr4;
+            $loader->fallbackDirsPsr4 = ComposerStaticInit2cd94397191248bf5edf47457d9fd4af::$fallbackDirsPsr4;
+
 
         }, null, ClassLoader::class);
     }

@@ -27,6 +27,18 @@
   </head>
 
   <body>
+    <?php
+      $autoloader = __DIR__ . '/relative/path/to/Bitpay/Autoloader.php';
+      if (true === file_exists($autoloader) &&
+          true === is_readable($autoloader))
+      {
+        
+          require_once $autoloader;
+          \Bitpay\Autoloader::register();
+      } else {
+          throw new Exception('BitPay Library could not be loaded');
+      }
+    ?>
 
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
@@ -40,6 +52,9 @@
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
               <a class="nav-link" href="index.php">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="work.php">Work</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="about.php">About</a>

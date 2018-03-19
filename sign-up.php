@@ -56,23 +56,29 @@
             <i class="fa fa-bars"></i>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="index.php">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="about.php">About</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="sign-up.php">Sign Up</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="log-in.php">Log In</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="contact.php">Contact</a>
-                </li>
-            </ul>
+
+
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="index.php">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="work.php">Work</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="about.php">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="sign-up.php">Sign Up</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="log-in.php">Log In</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="contact.php">Contact</a>
+            </li>
+          </ul>
+
         </div>
     </div>
 </nav>
@@ -88,81 +94,89 @@
                 </div>
             </div>
         </div>
-    </div>
-</header>
+
+      </div>
+    </header>
 
 
 
-<?php
-/*$name = $email = $userpassword = $address = $city = $state = $zip = "";
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $name = $_POST["user_name"];
-    $email = $_POST["user_email"];
-    $userpassword = $_POST["user_password"];
-    $address = $_POST["address"];
-    $city = $_POST["user_city"];
-    $state = $_POST["state"];
-    $zip = $_POST["user_zip"];
-}
+    <body>
+      <?php
+        $name = $email = $userpassword = $address = $city = $state = $zip = "";
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $name=$_POST["user_name"];
+        $email=$_POST["user_email"];
+        $userpassword=$_POST["user_password"];
+        $address=$_POST["address"];
+        $city=$_POST["user_city"];
+        $state=$_POST["state"];
+        $zip=$_POST["user_zip"];
+        }
 
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "bowensDB";
+        $servername="localhost";
+        $username="root";
+        $password="";
+        $dbname="bowensDB";
 
+        // Create connection
+        $conn=new mysqli($servername, $username, $password);
 
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
+        // Check connection
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+       // "Connected successfully";
 
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-echo "Connected successfully";
+        //Create database, only need to be done once.
+        $sql = "CREATE DATABASE bowensDB";
+        if ($conn->query($sql) === TRUE) {
+            //echo "Database created successfully";
+        } else {
+           // echo "Error creating database: " . $conn->error;
+        }
 
-// Create database, only need to be done once.
-// $sql = "CREATE DATABASE bowensDB";
-// if ($conn->query($sql) === TRUE) {
-//     echo "Database created successfully";
-// } else {
-//     echo "Error creating database: " . $conn->error;
-// }
+        $conn=new mysqli($servername, $username, $password, $dbname);
 
-//sql to create table
-// $sql = "CREATE TABLE DevhelpUsers (
-// id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-// username VARCHAR(30) NOT NULL,
-// email VARCHAR(30) NOT NULL,
-// password VARCHAR(50) NOT NULL,
-// address VARCHAR(100) NOT NULL,
-// city VARCHAR(50) NOT NULL,
-// state VARCHAR(50) NOT NULL,
-// zipcode VARCHAR(50) NOT NULL
-// )";
-//
-// if ($conn->query($sql) === TRUE) {
-//     echo "Table MyGuests created successfully";
-// } else {
-//     echo "Error creating table: " . $conn->error;
-// }
-
-
-//insert into table.
-if ($name != "") {
-    //First, fetch to see if email already exist in bowensDB.
-    $query = mysqli_query($conn, "SELECT email FROM DevhelpUsers WHERE email='$email'");
-
-    if (mysqli_num_rows($query) != 0) {
-        echo '<div style="text-align:center;">Email already exists!<div>';
-    } else {
-        $hashed_pw = password_hash($userpassword, PASSWORD_DEFAULT);
-        $sql = "INSERT INTO DevhelpUsers (username, email, password, address, city, state, zipcode)
-            VALUES ('$name', '$email', '$hashed_pw', '$address', '$city', '$state', '$zip')";
+       // sql to create table
+        $sql = "CREATE TABLE DevhelpUsers (
+        id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+        username VARCHAR(30) NOT NULL,
+        email VARCHAR(30) NOT NULL,
+        password VARCHAR(50) NOT NULL,
+        address VARCHAR(100) NOT NULL,
+        city VARCHAR(50) NOT NULL,
+        state VARCHAR(50) NOT NULL,
+        zipcode VARCHAR(50) NOT NULL
+        )";
 
         if ($conn->query($sql) === TRUE) {
-            echo "New record created successfully";
+           // echo "Table MyGuests created successfully";
         } else {
-            echo "Error: " . $sql . "<br>" . $conn->error;
+           // echo "Error creating table: " . $conn->error;
+        }
+
+
+
+        //insert into table.
+        if ($name != ""){
+          //First, fetch to see if email already exist in bowensDB.
+          $query = mysqli_query($conn,"SELECT email FROM DevhelpUsers WHERE email='$email'");
+
+          if (mysqli_num_rows($query) != 0)
+          {
+            echo '<div style="text-align:center;">Email already exists!<div>';
+          }else{
+            $hashed_pw = password_hash($userpassword, PASSWORD_DEFAULT);
+            $sql = "INSERT INTO DevhelpUsers (username, email, password, address, city, state, zipcode)
+            VALUES ('$name', '$email', '$hashed_pw', '$address', '$city', '$state', '$zip')";
+
+            if ($conn->query($sql) === TRUE) {
+                //echo "New record created successfully";
+            } else {
+               // echo "Error: " . $sql . "<br>" . $conn->error;
+            }
+          }
+
         }
     }
 }

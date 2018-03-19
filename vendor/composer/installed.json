@@ -1,5 +1,6 @@
 [
     {
+
         "name": "phpmailer/phpmailer",
         "version": "v6.0.3",
         "version_normalized": "6.0.3.0",
