@@ -36,7 +36,6 @@ require 'vendor/autoload.php';
 
     <!-- Custom styles for this template -->
     <link href="css/clean-blog.min.css" rel="stylesheet">
-
 </head>
 
 <body>
@@ -263,6 +262,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                oninvalid="setCustomValidity('The password must be at least 8 characters long.')"
                onchange="try{setCustomValidity('')}catch(e){}" name="user_password" required>
 
+        <label for="password">Password:</label>
+        <input type="password"  id="confirm_password" onChange="return Validate()" required>
+
+        <script type="text/javascript">
+            function Validate() {
+                var password = document.getElementById("password").value;
+                var confirmPassword = document.getElementById("confirm_password").value;
+                if (password != confirmPassword) {
+                    alert("Passwords do not match.");
+                    return false;
+                }
+                return true;
+            }
+        </script>
         <label for="address">Address:</label>
         <input type="text" id="address" name="address" pattern="^[#.0-9a-zA-Z\s,-]+$"
                oninvalid="setCustomValidity('Letters and numbers only please')"
