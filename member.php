@@ -8,15 +8,10 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>DevHelp: Log in</title>
+    <title>DevHelp: Help for Developers</title>
 
     <!-- Bootstrap core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
-    <!--page specific-->
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
-    <link rel="stylesheet" href="css/sign-up-style.css">
 
     <!-- Custom fonts for this template -->
     <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -31,40 +26,6 @@
 </head>
 
 <body>
-
-<?php
-$display_error = false;
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "bowensDB2";
-
-// Create connection
-    $conn = new mysqli($servername, $username, $password);
-
-// Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-// "Connected successfully";
-
-    $conn = new mysqli($servername, $username, $password, $dbname);
-
-    $sql = "SELECT * FROM DevHelpUsers WHERE email='$email' AND password='$password'";
-    $matched_credentials = $conn->query($sql);
-    if ($matched_credentials->num_rows == 1) {
-        session_start();
-        $_SESSION['email'] = $email;
-        header("Location: member.php");
-    } else {
-        $display_error = true;
-    }
-}
-?>
 
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
@@ -102,46 +63,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </nav>
 
 <!-- Page Header -->
-<header class="masthead" style="background-image: url('img/about-bg.jpg')">
+<header class="masthead" style="background-image: url('img/home-bg.jpg')">
     <div class="overlay"></div>
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-md-10 mx-auto">
-                <div class="page-heading">
-                    <h1>Log In to DevHelp</h1>
+                <div class="site-heading">
+                    <h1>This is DevHelp!</h1>
+                    <span class="subheading">Want your game-changing app idea to become a reality? Or do you just need coding help? Browse through thousands of student developers to find the perfect match for your development needs.</span>
                 </div>
             </div>
         </div>
     </div>
 </header>
 
-<form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post">
+<!-- Main Content -->
+<div class="container">
 
-    <h1>Log In</h1>
+</div>
 
-    <fieldset>
-        <!--<legend><span class="number">1</span> Enter Login Information</legend>-->
-        <?php
-        if ($display_error)
-            echo "<div style=\"color:red;\">Invalid email or password.</div>";
 
-        ?>
-        <label for="mail">Email:</label>
-        <input type="email" id="mail" name="user_email">
-
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="user_password">
-
-        <input type="checkbox" id="development" value="remember-me" name="user_interest"><label
-                class="light" for="development">Remember me</label>
-
-        <br><br>
-        <button type="submit">Log In</button>
-    </fieldset>
-
-</form>
-
-<hr>
 <!-- Footer -->
 <footer>
     <div class="container">
@@ -150,26 +91,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <ul class="list-inline text-center">
                     <li class="list-inline-item">
                         <a href="#">
-                    <span class="fa-stack fa-lg">
-                      <i class="fa fa-circle fa-stack-2x"></i>
-                      <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
-                    </span>
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                  </span>
                         </a>
                     </li>
                     <li class="list-inline-item">
                         <a href="#">
-                    <span class="fa-stack fa-lg">
-                      <i class="fa fa-circle fa-stack-2x"></i>
-                      <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
-                    </span>
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                  </span>
                         </a>
                     </li>
                     <li class="list-inline-item">
                         <a href="#">
-                    <span class="fa-stack fa-lg">
-                      <i class="fa fa-circle fa-stack-2x"></i>
-                      <i class="fa fa-github fa-stack-1x fa-inverse"></i>
-                    </span>
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                  </span>
                         </a>
                     </li>
                 </ul>
@@ -178,5 +119,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
     </div>
 </footer>
+
+<!-- Bootstrap core JavaScript -->
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Custom scripts for this template -->
+<script src="js/clean-blog.min.js"></script>
+
 </body>
+
 </html>
