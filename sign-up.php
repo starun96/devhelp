@@ -164,75 +164,75 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
 //insert into table.
-    if ($name != "") {
-        //First, fetch to see if email already exist in bowensDB.
 
-        $emails_result = $conn->query("SELECT email FROM DevhelpUsers WHERE email='$email'");
-        if ($emails_result->num_rows != 0) {
-            /*echo '<div style="text-align:center;">Email already exists!<div>';*/
-            $success = false;
-            $validation_message = "Email already exists!";
-        } else {
-            $success = true;
-            $validation_message = "Successfully signed up!";
-            $hashed_pw = password_hash($userpassword, PASSWORD_DEFAULT);
-            $sql = "INSERT INTO DevhelpUsers (username, email, password, address, city, state, zipcode)
+    //First, fetch to see if email already exist in bowensDB.
+
+    $emails_result = $conn->query("SELECT email FROM DevhelpUsers WHERE email='$email'");
+    if ($emails_result->num_rows != 0) {
+        /*echo '<div style="text-align:center;">Email already exists!<div>';*/
+        $success = false;
+        $validation_message = "Email already exists!";
+    } else {
+        $success = true;
+        $validation_message = "Successfully signed up!";
+        $hashed_pw = password_hash($userpassword, PASSWORD_DEFAULT);
+        $sql = "INSERT INTO DevhelpUsers (username, email, password, address, city, state, zipcode)
             VALUES ('$name', '$email', '$hashed_pw', '$address', '$city', '$state', '$zip')";
 
-            if ($conn->query($sql) === TRUE) {
-                //echo "New record created successfully";
-            } else {
-                // echo "Error: " . $sql . "<br>" . $conn->error;
-            }
+        if ($conn->query($sql) === TRUE) {
+            //echo "New record created successfully";
+        } else {
+            // echo "Error: " . $sql . "<br>" . $conn->error;
+        }
 
-            // send email
+        // send email
 
-            $mail = new PHPMailer(true);
+        $mail = new PHPMailer(true);
 //Tell PHPMailer to use SMTP
-            $mail->isSMTP();
+        $mail->isSMTP();
 //Enable SMTP debugging
 // 0 = off (for production use)
 // 1 = client messages
 // 2 = client and server messages
-            $mail->SMTPDebug = 0;
+        $mail->SMTPDebug = 0;
 //Set the hostname of the mail server
-            $mail->Host = 'smtp.gmail.com';
-            $mail->Port = 587;
-            $mail->SMTPSecure = 'tls';
+        $mail->Host = 'smtp.gmail.com';
+        $mail->Port = 587;
+        $mail->SMTPSecure = 'tls';
 //Whether to use SMTP authentication
-            $mail->SMTPAuth = true;
+        $mail->SMTPAuth = true;
 //Username to use for SMTP authentication - use full email address for gmail
-            $mail->Username = 'devhelptest@gmail.com';
+        $mail->Username = 'devhelptest@gmail.com';
 //Password to use for SMTP authentication
-            $mail->Password = "KZQ4Klh6crEk";
+        $mail->Password = "KZQ4Klh6crEk";
 //Set who the message is to be sent from
-            try {
-                $mail->setFrom('devhelptest@gmail.com', "DevHelp");
-            } catch (Exception $e) {
-                die("The \"from\" address could not be determined.");
-            }
+        try {
+            $mail->setFrom('devhelptest@gmail.com', "DevHelp");
+        } catch (Exception $e) {
+            die("The \"from\" address could not be determined.");
+        }
 //Set who the message is to be sent to
-            $mail->addAddress($email);
+        $mail->addAddress($email);
 //Set the subject line
-            $mail->Subject = 'DevHelp Account Successfully Created!';
+        $mail->Subject = 'DevHelp Account Successfully Created!';
 //Read an HTML message body from an external file, convert referenced images to embedded,
 //convert HTML into a basic plain-text alternative body
-            $mail->Body = "Welcome to DevHelp!";
+        $mail->Body = "Welcome to DevHelp!";
 //Replace the plain text body with one created manually
-            $mail->AltBody = 'This is a plain-text message body';
+        $mail->AltBody = 'This is a plain-text message body';
 
 
-            try {
-                $mail->send();
-            } catch (Exception $e) {
-                $success = false;
-                $validation_message = $validation_message . " However, the confirmation email could not be sent.";
-            }
-
+        try {
+            $mail->send();
+        } catch (Exception $e) {
+            $success = false;
+            $validation_message = $validation_message . " However, the confirmation email could not be sent.";
         }
-        $field_color = $success ? "green" : "red";
-        $validation_message_field = "<h4 style=\"color: $field_color; text-align:center;\">$validation_message</h4>";
+
     }
+    $field_color = $success ? "green" : "red";
+    $validation_message_field = "<h4 style=\"color: $field_color; text-align:center;\">$validation_message</h4>";
+
 
 }
 
@@ -262,8 +262,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                oninvalid="setCustomValidity('The password must be at least 8 characters long.')"
                onchange="try{setCustomValidity('')}catch(e){}" name="user_password" required>
 
-        <label for="password">Password:</label>
-        <input type="password"  id="confirm_password" onChange="return Validate()" required>
+        <label for="password">Confirm Password:</label>
+        <input type="password" id="confirm_password" onChange="return Validate()" required>
 
         <script type="text/javascript">
             function Validate() {
