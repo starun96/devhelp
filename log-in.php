@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -54,10 +57,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $conn = new mysqli($servername, $username, $password, $dbname);
 
-    $sql = "SELECT id FROM DevHelpUsers WHERE email='$user_email' AND password='$user_password'";
+    $hashed_pw = password_hash($user_password, PASSWORD_DEFAULT);
+    $sql = "SELECT id FROM DevHelpUsers WHERE email='$user_email' AND password='$hashed_pw'";
     $matched_credentials = $conn->query($sql);
     if ($matched_credentials->num_rows == 1) {
-        session_start();
         $_SESSION['user'] = $matched_credentials->fetch_assoc()['id'];
         header("Location: member.php");
     } else {
@@ -95,6 +98,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="contact.php">Contact</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="member.php">Member</a>
                 </li>
             </ul>
         </div>

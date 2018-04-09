@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -57,6 +60,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="contact.php">Contact</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="member.php">Member</a>
+                </li>
             </ul>
         </div>
     </div>
@@ -82,6 +88,7 @@
     <?php
     $user = $_SESSION['user'];
     if (isset($user)) {
+
         $servername = "localhost";
         $username = "root";
         $password = "";
@@ -94,9 +101,14 @@
         }
 
         $conn = new mysqli($servername, $username, $password, $dbname);
-        $result = $conn->query("SELECT username FROM DevHelpUsers WHERE id='$user'");
-        $user_name = $result->fetch_assoc()['username'];
-        echo "<div style='color: red'>$user_name</div>";
+        $result = $conn->query("SELECT username FROM DevhelpUsers WHERE id='$user'");
+
+        if ($result->num_rows > 0)
+        {
+            $row = $result->fetch_assoc();
+            $user_name = $row['username'];
+            echo "<div style='color: red'>$user_name</div>";
+        }
     }
     ?>
 </div>

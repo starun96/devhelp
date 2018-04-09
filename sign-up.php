@@ -4,7 +4,7 @@ use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\PHPMailer;
 
 require 'vendor/autoload.php';
-
+session_start();
 ?>
 
 <!DOCTYPE html>
@@ -84,6 +84,9 @@ require 'vendor/autoload.php';
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="contact.php">Contact</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link"  href="member.php">Member</a>
                 </li>
             </ul>
         </div>
@@ -224,7 +227,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         try {
             $mail->send();
-            session_start();
             $_SESSION['user'] = $conn->insert_id;
             header('Location: member.php');
         } catch (Exception $e) {
