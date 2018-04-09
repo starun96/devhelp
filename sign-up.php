@@ -178,7 +178,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         $success = true;
         $validation_message = "Successfully signed up!";
-        $hashed_pw = password_hash($userpassword, PASSWORD_DEFAULT);
+        $hashed_pw =hash('sha256', $userpassword);
         $sql = "INSERT INTO DevhelpUsers (username, email, password, address, city, state, zipcode)
             VALUES ('$name', '$email', '$hashed_pw', '$address', '$city', '$state', '$zip')";
 

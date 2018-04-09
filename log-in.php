@@ -38,8 +38,8 @@ session_start();
 <?php
 $display_error = false;
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $user_email = $_POST['email'];
-    $user_password = $_POST['password'];
+    $user_email = $_POST['user_email'];
+    $user_password = $_POST['user_password'];
 
     $servername = "localhost";
     $username = "root";
@@ -57,8 +57,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $conn = new mysqli($servername, $username, $password, $dbname);
 
-    $hashed_pw = password_hash($user_password, PASSWORD_DEFAULT);
-    $sql = "SELECT id FROM DevHelpUsers WHERE email='$user_email' AND password='$hashed_pw'";
+    $hashed_pw = hash('sha256', $user_password);
+
+    $sql = "SELECT id FROM DevhelpUsers WHERE email='$user_email' AND password='$hashed_pw'";
     $matched_credentials = $conn->query($sql);
     if ($matched_credentials->num_rows == 1) {
         $_SESSION['user'] = $matched_credentials->fetch_assoc()['id'];
