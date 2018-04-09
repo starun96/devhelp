@@ -107,10 +107,13 @@ session_start();
         {
             $row = $result->fetch_assoc();
             $user_name = $row['username'];
-            echo "<div style='color: red'>$user_name</div>";
+            echo "<div style='text-align:center; color: red'>$user_name</div>";
         }
     }
     ?>
+    <form action="log-out.php" style="text-align:center">
+      <button type="submit" class="btn btn-primary" id="sendMessageButton" >Log Out!</button>
+    </form>
 </div>
 
 
