@@ -35,8 +35,8 @@
 <?php
 $display_error = false;
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $email = $_POST['email'];
-    $password = $_POST['password'];
+    $user_email = $_POST['email'];
+    $user_password = $_POST['password'];
 
     $servername = "localhost";
     $username = "root";
@@ -54,11 +54,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $conn = new mysqli($servername, $username, $password, $dbname);
 
-    $sql = "SELECT * FROM DevHelpUsers WHERE email='$email' AND password='$password'";
+    $sql = "SELECT id FROM DevHelpUsers WHERE email='$user_email' AND password='$user_password'";
     $matched_credentials = $conn->query($sql);
     if ($matched_credentials->num_rows == 1) {
         session_start();
-        $_SESSION['email'] = $email;
+        $_SESSION['user'] = $matched_credentials->fetch_assoc()['id'];
         header("Location: member.php");
     } else {
         $display_error = true;

@@ -79,7 +79,26 @@
 
 <!-- Main Content -->
 <div class="container">
+    <?php
+    $user = $_SESSION['user'];
+    if (isset($user)) {
+        $servername = "localhost";
+        $username = "root";
+        $password = "";
+        $dbname = "bowensDB2";
 
+        $conn = new mysqli($servername, $username, $password);
+
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+
+        $conn = new mysqli($servername, $username, $password, $dbname);
+        $result = $conn->query("SELECT username FROM DevHelpUsers WHERE id='$user'");
+        $user_name = $result->fetch_assoc()['username'];
+        echo "<div style='color: red'>$user_name</div>";
+    }
+    ?>
 </div>
 
 

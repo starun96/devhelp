@@ -224,6 +224,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         try {
             $mail->send();
+            session_start();
+            $_SESSION['user'] = $conn->insert_id;
+            header('Location: member.php');
         } catch (Exception $e) {
             $success = false;
             $validation_message = $validation_message . " However, the confirmation email could not be sent.";
