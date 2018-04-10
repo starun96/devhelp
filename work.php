@@ -3,10 +3,9 @@
 <?php
 
 session_start();
-// header('Location: member.php');
-//$_SESSION['count'] = 100;
-//$count = $_SESSION['count'] + 3;
-//echo $count;
+if (isset($_SESSION['user'])){
+  $user = $_SESSION['user'];
+}
 
 
 
@@ -137,11 +136,15 @@ foreach ($postsubtitlearray as &$value) {
 <div class="container">
     <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
-            <div class="clearfix">
-                <a class="btn btn-primary " href="makepost.php">Post Yourself</a>
-            </div>
+          <?php
+          if (isset($user))
+          echo'<div class="clearfix">
+              <a class="btn btn-primary " href="makepost.php">Post Yourself</a>
+          </div>';
+           ?>
+
             <div class="post-preview">
-                <a href="post.php">
+                <a href="bowenpost.php">
 
                     <h2 class="post-title">
                         Bowen Sun
@@ -182,7 +185,7 @@ foreach ($postsubtitlearray as &$value) {
                </h2>
                <h3 class="post-subtitle">
                  <?php
-                    print $posttitlearray[$key];
+                    print $postsubtitlearray[$key];
                   ?>
                </h3>
              </a>

@@ -118,9 +118,7 @@ if ($results->num_rows > 0) {
                   print $subtitle
                  ?>
               </h2>
-              <span class="meta">Posted by
-                <a href="#">Start Bootstrap</a>
-                </span>
+
             </div>
           </div>
         </div>
@@ -133,7 +131,8 @@ if ($results->num_rows > 0) {
         <div class="row">
           <div class="col-lg-8 col-md-10 mx-auto">
             <?php
-              print $content
+              print $content;
+              print $price;
              ?>
           </div>
         </div>

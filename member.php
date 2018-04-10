@@ -1,6 +1,68 @@
+
+
 <?php
+
 session_start();
+if (isset($_SESSION['user'])){
+  $user = $_SESSION['user'];
+
+  $servername = "localhost";
+  $username = "root";
+  $password = "";
+  $dbname = "bowensDB2";
+
+  $conn = new mysqli($servername, $username, $password);
+
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $conn = new mysqli($servername, $username, $password, $dbname);
+  $result = $conn->query("SELECT username FROM DevhelpUsers WHERE id='$user'");
+
+  if ($result->num_rows > 0)
+  {
+      $row = $result->fetch_assoc();
+      $user_name = $row['username'];
+  }
+}
+
+
+
+
+// header('Location: member.php');
+
+$title = $subtitle = $price = $maincontent = "";
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "bowensDB2";
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+// "Connected successfully";
+$posttitlearray = array();
+$postsubtitlearray = array();
+$postidarray = array();
+$sql = "SELECT title, subtitle, id FROM DevhelpPosts WHERE uid = '$user'";
+$results = $conn->query($sql);
+if ($results->num_rows > 0) {
+    while ($row = $results->fetch_assoc()) {
+        $title = $row["title"];
+        $subtitle = $row["subtitle"];
+        $id = $row["id"];
+        array_push($posttitlearray, $title);
+        array_push($postsubtitlearray, $subtitle);
+        array_push($postidarray, $id);
+    }
+}
+
+
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -86,32 +148,61 @@ session_start();
 <!-- Main Content -->
 <div class="container">
     <?php
-    $user = $_SESSION['user'];
-    if (isset($user)) {
 
-        $servername = "localhost";
-        $username = "root";
-        $password = "";
-        $dbname = "bowensDB2";
+        echo "<h1 style='text-align:center; color: gray'>$user_name</h1>";
 
-        $conn = new mysqli($servername, $username, $password);
-
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
-        }
-
-        $conn = new mysqli($servername, $username, $password, $dbname);
-        $result = $conn->query("SELECT username FROM DevhelpUsers WHERE id='$user'");
-
-        if ($result->num_rows > 0)
-        {
-            $row = $result->fetch_assoc();
-            $user_name = $row['username'];
-            echo "<div style='color: red'>$user_name</div>";
-        }
-    }
     ?>
+
+    <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div style='text-align:center; '>My Posts</div>
+
+       <?php foreach($postidarray as $key => $value){ ?>
+         <div class="post-preview" action="<?php $_SESSION['postid'] = $value; ?>">
+             <a href="post.php?key=<?php echo $value?>" method="post">
+               <h2 class="post-title">
+                 <?php
+                    print $posttitlearray[$key];
+                  ?>
+               </h2>
+               <h3 class="post-subtitle">
+                 <?php
+                    print $postsubtitlearray[$key];
+                    print $user_name;
+                  ?>
+               </h3>
+             </a>
+
+                 <?php
+                    echo "<p class='post-meta'>Posted by
+                        <a >
+                          $user_name
+                        </a>
+                        </p>";
+                 ?>
+
+         </div>
+         <hr>
+
+
+    <?php } ?>
+
+
+
+
+
+        </div>
+    </div>
+
+    <form action="log-out.php" style="text-align:center">
+      <button type="submit" class="btn btn-primary" id="sendMessageButton" >Log Out!</button>
+    </form>
 </div>
+
+
+
+
+
 
 
 <!-- Footer -->

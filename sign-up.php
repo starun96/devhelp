@@ -153,7 +153,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
         username VARCHAR(30) NOT NULL,
         email VARCHAR(30) NOT NULL,
-        password VARCHAR(50) NOT NULL,
+        password VARCHAR(200) NOT NULL,
         address VARCHAR(100) NOT NULL,
         city VARCHAR(50) NOT NULL,
         state VARCHAR(50) NOT NULL,
