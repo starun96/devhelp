@@ -77,6 +77,11 @@ if ($results->num_rows > 0) {
 
     <title>DevHelp: Help for Developers</title>
 
+    <!--page specific -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link rel="stylesheet" href="css/sign-up-style.css">
+    
     <!-- Bootstrap core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 

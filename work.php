@@ -24,7 +24,15 @@ if ($conn->connect_error) {
 $posttitlearray = array();
 $postsubtitlearray = array();
 $postidarray = array();
-$sql = "SELECT title, subtitle, id FROM DevhelpPosts";
+
+$price_filter_addition = "";
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $price_filter = $_POST['price_filter'];
+    $price_filter_addition = " WHERE price='$price_filter'";
+}
+
+
+$sql = "SELECT title, subtitle, id FROM DevhelpPosts" . $price_filter_addition;
 $results = $conn->query($sql);
 if ($results->num_rows > 0) {
     while ($row = $results->fetch_assoc()) {
@@ -60,6 +68,11 @@ foreach ($postsubtitlearray as &$value) {
 
     <title>Work</title>
 
+    <!--page specific -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link rel="stylesheet" href="css/sign-up-style.css">
+    
     <!-- Bootstrap core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
@@ -142,6 +155,18 @@ foreach ($postsubtitlearray as &$value) {
               <a class="btn btn-primary " href="makepost.php">Post Yourself</a>
           </div>';
            ?>
+
+           <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post">
+                    <label for="price_filter">Filter:</label>
+                    <select name="price_filter" id="price_filter">
+                        <option value="1" selected="selected">1</option>
+                        <option value="2" selected="selected">2</option>
+                        <option value="3" selected="selected">3</option>
+                    </select>
+
+                    <!-- <input type="button"  value="Apply Filter" class="btn btn-primary"/> -->
+                    <button type="submit">Apply Filter</button>
+            </form>
 
             <div class="post-preview">
                 <a href="bowenpost.php">
