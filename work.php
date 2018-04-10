@@ -24,6 +24,7 @@ if ($conn->connect_error) {
 $posttitlearray = array();
 $postsubtitlearray = array();
 $postidarray = array();
+$usernamearray = array();
 
 $price_filter_addition = "";
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -42,8 +43,19 @@ if ($results->num_rows > 0) {
         array_push($posttitlearray, $title);
         array_push($postsubtitlearray, $subtitle);
         array_push($postidarray, $id);
+
+        // $usersql = "SELECT username FROM DevhelpUsers WHERE id='$id'";
+        // $userresults = $conn->query($sql);
+        // if ($userresults->num_rows > 0){
+        //   while ($somename = $userresults->fetch_assoc()) {
+        //     array_push($usernamearray, $somename);
+        //   }
+        // }
+
     }
 }
+
+
 
 
 ?>
@@ -72,7 +84,7 @@ foreach ($postsubtitlearray as &$value) {
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
     <link rel="stylesheet" href="css/sign-up-style.css">
-    
+
     <!-- Bootstrap core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
@@ -151,7 +163,7 @@ foreach ($postsubtitlearray as &$value) {
         <div class="col-lg-8 col-md-10 mx-auto">
           <?php
           if (isset($user))
-          echo'<div class="clearfix">
+          echo'<div class="clearfix" style="text-align:center">
               <a class="btn btn-primary " href="makepost.php">Post Yourself</a>
           </div>';
            ?>
@@ -159,13 +171,15 @@ foreach ($postsubtitlearray as &$value) {
            <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post">
                     <label for="price_filter">Filter:</label>
                     <select name="price_filter" id="price_filter">
-                        <option value="1" selected="selected">1</option>
-                        <option value="2" selected="selected">2</option>
-                        <option value="3" selected="selected">3</option>
-                    </select>
+                        <option selected="selected">Select your price:  </option>
+                        <option value="1">1 BitCoin</option>
+                        <option value="2">2 BitCoin</option>
+                        <option value="3">3 BitCoin</option>
 
+                    </select>
+                    <hr>
                     <!-- <input type="button"  value="Apply Filter" class="btn btn-primary"/> -->
-                    <button type="submit">Apply Filter</button>
+                    <button class="btn btn-primary " type ="submit">Apply Filter</button>
             </form>
 
             <div class="post-preview">
