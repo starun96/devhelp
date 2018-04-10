@@ -46,14 +46,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $password = "";
     $dbname = "bowensDB2";
 
-// Create connection
     $conn = new mysqli($servername, $username, $password);
 
-// Check connection
+
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-// "Connected successfully";
+
 
     $conn = new mysqli($servername, $username, $password, $dbname);
 
