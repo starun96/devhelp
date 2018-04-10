@@ -138,6 +138,36 @@ if ($results->num_rows > 0) {
         </div>
       </div>
     </article>
+<hr>
+
+    <?php
+    if ($price == 1){
+      echo '<div style="text-align:center"><form action="https://test.bitpay.com/checkout" method="post" >
+  <input type="hidden" name="action" value="checkout" />
+  <input type="hidden" name="posData" value="" />
+  <input type="hidden" name="data" value="7/f26+/YTFW63Wx80y4/F8QSOpxlYNCQpHVS8p64ZBO0ll3Ev+LJWl/Akh7qOvLPm7c4zskJ/ep7zGB+anWl1OFQ+wViMermY3FkNtpbIUjcofdPAL1J5KkjKL7k1OQrbs+5zO5w3xOuIeaLXZl5Jz+oGCDU8fBZCo96dRX+ue15yvLb86naPFKY1WnNgqkC" />
+  <input type="image" src="https://test.bitpay.com/img/button-large.png" border="0" name="submit" alt="BitPay, the easy way to pay with bitcoins." >
+</form></div>';
+}else if($price == 2){
+  echo '<div style="text-align:center">
+  <form action="https://test.bitpay.com/checkout" method="post" >
+<input type="hidden" name="action" value="checkout" />
+<input type="hidden" name="posData" value="" />
+<input type="hidden" name="data" value="7/f26+/YTFW63Wx80y4/F8QSOpxlYNCQpHVS8p64ZBO0ll3Ev+LJWl/Akh7qOvLPqsuZxMoP7ZwVW3pYUDDalAczKZDJSUTA4bylyxwy5hHJyZhOkUUKpzzdJhbTqghhHxzOXd9igMDdbKAhBmbn9cXHtI3wiEOq0oGuyfseONWdW1dArEr12ANPnTUx7c/h" />
+<input type="image" src="https://test.bitpay.com/img/button-large.png" border="0" name="submit" alt="BitPay, the easy way to pay with bitcoins." >
+</form>
+  </div>';
+}else {
+  echo '<div style="text-align:center">
+  <form action="https://test.bitpay.com/checkout" method="post" >
+  <input type="hidden" name="action" value="checkout" />
+  <input type="hidden" name="posData" value="" />
+  <input type="hidden" name="data" value="7/f26+/YTFW63Wx80y4/F8QSOpxlYNCQpHVS8p64ZBO0ll3Ev+LJWl/Akh7qOvLPQyCIN7hRrpZLe3WjTF8eLa+vxG4CGAVY/WN+rMw1Mmf1MOpN6ezzk/bA8ntHKcj8IbFD09AC3NrxTMwfL5Ahdwag+LO4dBCho5HvwgJNG0WF4R0+RXPwwhCYOzq7dciZ" />
+  <input type="image" src="https://test.bitpay.com/img/button-large.png" border="0" name="submit" alt="BitPay, the easy way to pay with bitcoins." >
+</form>
+  </div>';
+}
+     ?>
 
     <hr>
 

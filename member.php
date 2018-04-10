@@ -25,6 +25,8 @@ if (isset($_SESSION['user'])){
       $row = $result->fetch_assoc();
       $user_name = $row['username'];
   }
+}else{
+  header('Location: log-in.php');
 }
 
 
