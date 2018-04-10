@@ -185,6 +185,7 @@ if ($results->num_rows > 0) {
          <hr>
 
 
+
     <?php } ?>
 
 
@@ -193,6 +194,7 @@ if ($results->num_rows > 0) {
 
         </div>
     </div>
+
 
     <form action="log-out.php" style="text-align:center">
       <button type="submit" class="btn btn-primary" id="sendMessageButton" >Log Out!</button>
