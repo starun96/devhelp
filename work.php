@@ -20,6 +20,10 @@
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800'
           rel='stylesheet' type='text/css'>
 
+    <!--page-specific-->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link rel="stylesheet" href="css/sign-up-style.css">
     <!-- Custom styles for this template -->
     <link href="css/clean-blog.min.css" rel="stylesheet">
 
@@ -88,6 +92,16 @@
         <div class="col-lg-8 col-md-10 mx-auto">
             <div class="clearfix">
                 <a class="btn btn-primary " href="makepost.php">Post Yourself</a>
+                <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post">
+                    <label for="price_filter">Filter:</label>
+                    <select name="price_filter" id="price_filter">
+                        <option value="1" selected="selected">1</option>
+                        <option value="2" selected="selected">2</option>
+                        <option value="3" selected="selected">3</option>
+                    </select>
+
+                    <input type="button" value="Apply Filter" class="btn btn-primary"/>
+                </form>
             </div>
             <div class="post-preview">
                 <a href="bowenpost.php">
@@ -130,14 +144,20 @@
             $dbname = "bowensDB2";
 
             $conn = new mysqli($servername, $username, $password, $dbname);
-            // Check connection
+
             if ($conn->connect_error) {
                 die("Connection failed: " . $conn->connect_error);
             }
-            // "Connected successfully";
-            $sql = "SELECT title, subtitle, price, content FROM DevhelpPosts";
+
+            $price_filter_addition = "";
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                $price_filter = $_POST['price_filter'];
+                $price_filter_addition = "WHERE price='$price_filter'";
+            }
+            $sql = "SELECT title, subtitle, price, content FROM DevhelpPosts" . " $price_filter_addition";
             $results = $conn->query($sql);
             if ($results->num_rows > 0) {
+
                 while ($row = $results->fetch_assoc()) {
                     $title = $row["title"];
                     $subtitle = $row["subtitle"];
