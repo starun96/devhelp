@@ -1,5 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
+<?php
+
+session_start();
+// header('Location: member.php');
+//$_SESSION['count'] = 100;
+//$count = $_SESSION['count'] + 3;
+//echo $count;
+
+
+
+$title = $subtitle = $price = $maincontent = "";
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "bowensDB2";
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+// "Connected successfully";
+$posttitlearray = array();
+$postsubtitlearray = array();
+$postidarray = array();
+$sql = "SELECT title, subtitle, id FROM DevhelpPosts";
+$results = $conn->query($sql);
+if ($results->num_rows > 0) {
+    while ($row = $results->fetch_assoc()) {
+        $title = $row["title"];
+        $subtitle = $row["subtitle"];
+        $id = $row["id"];
+        array_push($posttitlearray, $title);
+        array_push($postsubtitlearray, $subtitle);
+        array_push($postidarray, $id);
+    }
+}
+
+
+?>
+
+<!-- <?php
+foreach ($posttitlearray as &$value) {
+    echo $value;
+}
+
+foreach ($postsubtitlearray as &$value) {
+    echo $value;
+}
+
+?> -->
 
 <head>
 
@@ -90,7 +141,7 @@
                 <a class="btn btn-primary " href="makepost.php">Post Yourself</a>
             </div>
             <div class="post-preview">
-                <a href="bowenpost.php">
+                <a href="post.php">
 
                     <h2 class="post-title">
                         Bowen Sun
@@ -120,49 +171,32 @@
                     on March 17, 2018</p>
             </div>
             <hr>
-            <?php
+
+       <?php foreach($postidarray as $key => $value){ ?>
+         <div class="post-preview" action="<?php $_SESSION['postid'] = $value; ?>">
+             <a href="post.php?key=<?php echo $value?>" method="post">
+               <h2 class="post-title">
+                 <?php
+                    print $posttitlearray[$key];
+                  ?>
+               </h2>
+               <h3 class="post-subtitle">
+                 <?php
+                    print $posttitlearray[$key];
+                  ?>
+               </h3>
+             </a>
+             <p class="post-meta">Posted by
+                 <a >Bowen</a>
+                 </p>
+         </div>
+         <hr>
 
 
-            $title = $subtitle = $price = $maincontent = "";
-            $servername = "localhost";
-            $username = "root";
-            $password = "";
-            $dbname = "bowensDB2";
-
-            $conn = new mysqli($servername, $username, $password, $dbname);
-            // Check connection
-            if ($conn->connect_error) {
-                die("Connection failed: " . $conn->connect_error);
-            }
-            // "Connected successfully";
-            $sql = "SELECT title, subtitle, price, content FROM DevhelpPosts";
-            $results = $conn->query($sql);
-            if ($results->num_rows > 0) {
-                while ($row = $results->fetch_assoc()) {
-                    $title = $row["title"];
-                    $subtitle = $row["subtitle"];
-                    //echo "title:" .$row["title"]. "subtitle:" .$row["subtitle"]. "<br>";
-                    //echo ('<a href="user_account.php?id=' . $title . '">' . $subtitle . '</a>');
-                    echo '<div class="post-preview">
-                <a href="post.php">
-
-                  <h2 class="post-title">
-                    ' . $title . '
-                  </h2>
-                  <h3 class="post-subtitle">
-                    ' . $subtitle . '
-                  </h3>
-                </a>
-                <p class="post-meta">Posted by
-                  <a href="#">Bowen</a>
-                  on March 17, 2018</p>
-              </div>
-                  <hr>';
-                }
-            }
+    <?php } ?>
 
 
-            ?>
+
 
 
         </div>
